@@ -260,6 +260,24 @@ namespace ET
      		}
      	}
 
+		public ESCommonUI ESCommonUI
+     	{
+     		get
+     		{
+     			if (this.uiTransform == null)
+     			{
+     				Log.Error("uiTransform is null.");
+     				return null;
+     			}
+     			if( this.m_escommonui == null )
+     			{
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"ESCommonUI");
+		    	   this.m_escommonui = this.AddChild<ESCommonUI,Transform>(subTrans);
+     			}
+     			return this.m_escommonui;
+     		}
+     	}
+
 		public void DestroyWidget()
 		{
 			this.m_EGBackGroundRectTransform = null;
@@ -277,6 +295,8 @@ namespace ET
 			this.m_EButton_MailNode1Image = null;
 			this.m_EButton_MailNode2Button = null;
 			this.m_EButton_MailNode2Image = null;
+			this.m_escommonui?.Dispose();
+			this.m_escommonui = null;
 			this.uiTransform = null;
 		}
 
@@ -295,6 +315,7 @@ namespace ET
 		private UnityEngine.UI.Image m_EButton_MailNode1Image = null;
 		private UnityEngine.UI.Button m_EButton_MailNode2Button = null;
 		private UnityEngine.UI.Image m_EButton_MailNode2Image = null;
+		private ESCommonUI m_escommonui = null;
 		public Transform uiTransform = null;
 	}
 }

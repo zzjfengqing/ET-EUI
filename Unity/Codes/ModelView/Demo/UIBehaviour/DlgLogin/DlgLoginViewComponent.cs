@@ -107,6 +107,24 @@ namespace ET
      		}
      	}
 
+		public ESCommonUI ESCommonUI
+     	{
+     		get
+     		{
+     			if (this.uiTransform == null)
+     			{
+     				Log.Error("uiTransform is null.");
+     				return null;
+     			}
+     			if( this.m_escommonui == null )
+     			{
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"ESCommonUI");
+		    	   this.m_escommonui = this.AddChild<ESCommonUI,Transform>(subTrans);
+     			}
+     			return this.m_escommonui;
+     		}
+     	}
+
 		public void DestroyWidget()
 		{
 			this.m_E_LoginButton = null;
@@ -115,6 +133,8 @@ namespace ET
 			this.m_E_AccountImage = null;
 			this.m_E_PasswordInputField = null;
 			this.m_E_PasswordImage = null;
+			this.m_escommonui?.Dispose();
+			this.m_escommonui = null;
 			this.uiTransform = null;
 		}
 
@@ -124,6 +144,7 @@ namespace ET
 		private UnityEngine.UI.Image m_E_AccountImage = null;
 		private UnityEngine.UI.InputField m_E_PasswordInputField = null;
 		private UnityEngine.UI.Image m_E_PasswordImage = null;
+		private ESCommonUI m_escommonui = null;
 		public Transform uiTransform = null;
 	}
 }

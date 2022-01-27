@@ -1,5 +1,3 @@
-
-
 using System.Net;
 
 namespace ET
@@ -11,7 +9,7 @@ namespace ET
             long instanceId = IdGenerater.Instance.GenerateInstanceId();
             return await Create(parent, instanceId, instanceId, parent.DomainZone(), name, sceneType);
         }
-        
+
         public static async ETTask<Scene> Create(Entity parent, long id, long instanceId, int zone, string name, SceneType sceneType, StartSceneConfig startSceneConfig = null)
         {
             await ETTask.CompletedTask;
@@ -24,17 +22,30 @@ namespace ET
                 case SceneType.Realm:
                     scene.AddComponent<NetKcpComponent, IPEndPoint, int>(startSceneConfig.OuterIPPort, SessionStreamDispatcherType.SessionStreamDispatcherServerOuter);
                     break;
+
                 case SceneType.Gate:
                     scene.AddComponent<NetKcpComponent, IPEndPoint, int>(startSceneConfig.OuterIPPort, SessionStreamDispatcherType.SessionStreamDispatcherServerOuter);
                     scene.AddComponent<PlayerComponent>();
                     scene.AddComponent<GateSessionKeyComponent>();
                     break;
+
                 case SceneType.Map:
                     scene.AddComponent<UnitComponent>();
                     scene.AddComponent<AOIManagerComponent>();
                     break;
+
                 case SceneType.Location:
                     scene.AddComponent<LocationComponent>();
+                    break;
+
+                case SceneType.Account:
+                    scene.AddComponent<NetKcpComponent, IPEndPoint, int>(startSceneConfig.OuterIPPort,
+                        SessionStreamDispatcherType.SessionStreamDispatcherServerOuter);
+                    scene.AddComponent<TokenComponent>();
+                    scene.AddComponent<AccountSessionsComponent>();
+                    break;
+                case SceneType.LoginCenter:
+                    scene.AddComponent<LoginIfoRecordComponent>();
                     break;
             }
 

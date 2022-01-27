@@ -36,6 +36,7 @@ public class RedDotMonoView: MonoBehaviour
         }
         this.redDotGameObject.transform.localScale = RedDotScale;
         this.redDotCountLabel.text = count <= 0? string.Empty: count.ToString();
+        this.redDotGameObject.SetActive(count > 0);
     }
 
     public GameObject Recovery()

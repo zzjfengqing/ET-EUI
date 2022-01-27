@@ -28,6 +28,8 @@ namespace ET
             
             Scene zoneScene = SceneFactory.CreateZoneScene(1, "Game", Game.Scene);
             
+            NoteFactroy.StartFactroy(zoneScene);
+            
             await Game.EventSystem.PublishAsync(new EventType.AppStartInitFinish() { ZoneScene = zoneScene });
         }
     }

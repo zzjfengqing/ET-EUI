@@ -27,6 +27,8 @@
 
 		public void OnHideWindow(UIBaseWindow uiBaseWindow)
 		{
+			uiBaseWindow.GetComponent<DlgRedDot>().HideWindow(); 
+
 		}
 
 		public void BeforeUnload(UIBaseWindow uiBaseWindow)
