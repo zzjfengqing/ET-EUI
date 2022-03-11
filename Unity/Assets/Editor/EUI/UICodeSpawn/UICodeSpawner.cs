@@ -22,7 +22,7 @@ public partial class UICodeSpawner
 		try
 		{
 			string uiName = gameObject.name;
-			if (uiName.StartsWith(UIPanelPrefix))
+			if (uiName.StartsWith(UIPanelPrefix))//确定此字符串实例是否以指定字符开始。
 			{
 				Debug.LogWarning($"----------开始生成Dlg{uiName} 相关代码 ----------");
 				SpawnDlgCode(gameObject);
@@ -52,7 +52,10 @@ public partial class UICodeSpawner
 		}
 	}
 	
-	
+	/// <summary>
+	/// UI下普通组件生成代码的管理方法
+	/// </summary>
+	/// <param name="gameObject"></param>
     static public void SpawnDlgCode(GameObject gameObject)
     {
 	    Path2WidgetCachedDict?.Clear();
@@ -70,6 +73,11 @@ public partial class UICodeSpawner
         AssetDatabase.Refresh();
     }
     
+    /// <summary>
+    /// 生成HotfixView/Demo/UI下的 物体名+System  脚本
+    /// 用于注册按钮，显示文本
+    /// </summary>
+    /// <param name="gameObject"></param>
     static void SpawnCodeForDlg(GameObject gameObject)
     {
         string strDlgName  = gameObject.name;
@@ -90,7 +98,7 @@ public partial class UICodeSpawner
 
         StreamWriter sw = new StreamWriter(strFilePath, false, Encoding.UTF8);
         StringBuilder strBuilder = new StringBuilder();
-        strBuilder.AppendLine("using System.Collections;")
+        strBuilder.AppendLine("using System.Collections;")//将默认的行终止符追加到当前 StringBuilder 对象的末尾。
                   .AppendLine("using System.Collections.Generic;")
                   .AppendLine("using System;")
                   .AppendLine("using UnityEngine;")
@@ -127,7 +135,11 @@ public partial class UICodeSpawner
         sw.Close();
     }
     
-    
+    /// <summary>
+    /// 生成HotfixView/Demo/UI/" 下的 物体名+EventHandler 脚本
+    /// 用于响应AUIEvent发布的消息，继承自IAUIEventHandler，实现设定窗体类型、绑定组件、注册事件、显示隐藏文本信息等功能
+    /// </summary>
+    /// <param name="gameObject"></param>
 	static void SpawnCodeForDlgEventHandle(GameObject gameObject)
     {
         string strDlgName = gameObject.name;
@@ -212,7 +224,11 @@ public partial class UICodeSpawner
         sw.Close();
     }
     
-	
+	/// <summary>
+	/// 生成ModelView/Demo/UI/下的 物体名 脚本
+	/// 用于作为 物体实体类
+	/// </summary>
+	/// <param name="gameObject"></param>
 	static void SpawnCodeForDlgModel(GameObject gameObject)
     {
         string strDlgName = gameObject.name;
@@ -253,7 +269,11 @@ public partial class UICodeSpawner
         sw.Close();
     }
     
-
+	/// <summary>
+	/// 生成HotfixView/Demo/UIBehaviour/ 下的 物体名+ViewComponent  System生命周期管理脚本
+	/// 用于管理 实体的生命周期
+	/// </summary>
+	/// <param name="gameObject"></param>
     static void SpawnCodeForDlgBehaviour(GameObject gameObject)
     {
         if (null == gameObject)
@@ -305,6 +325,12 @@ public partial class UICodeSpawner
         sw.Close();
     }
 
+	/// <summary>
+	/// 生成odelView/Demo/UIBehaviour/下的 物体名 +ViewComponent  脚本
+	/// 用于根据物体名及挂载的组件类型，生成物体名属性，方便通过View调用
+	/// 在UI下新建了物体后，就是在这生成的物体名属性，，，方便人们的引用
+	/// </summary>
+	/// <param name="gameObject"></param>
     static void SpawnCodeForDlgComponentBehaviour(GameObject gameObject)
     {
 	    if (null == gameObject)
@@ -344,8 +370,11 @@ public partial class UICodeSpawner
 	    sw.Flush();
 	    sw.Close();
     }
-
-
+	
+	/// <summary>
+	/// 生成DestroyWidget方法
+	/// </summary>
+	/// <param name="strBuilder"></param>
     public static void CreateDestroyWidgetCode( ref StringBuilder strBuilder)
     {
 	    strBuilder.AppendFormat("\t\tpublic void DestroyWidget()");
@@ -355,7 +384,11 @@ public partial class UICodeSpawner
 	    strBuilder.AppendLine("\t\t}\n");
     }
     
-    
+    /// <summary>
+    /// 在DestroyWidget方法中 将生成的物体属性 置空
+    /// </summary>
+    /// <param name="strBuilder"></param>
+    /// <param name="isSelf"></param>
     public static void CreateDlgWidgetDisposeCode(ref StringBuilder strBuilder,bool isSelf = false)
     {
 	    string pointStr = isSelf ? "self" : "this";
@@ -382,6 +415,11 @@ public partial class UICodeSpawner
 	 
     }
 
+    /// <summary>
+    /// 实际的生成绑定组件属性的方法
+    /// </summary>
+    /// <param name="strBuilder"></param>
+    /// <param name="transRoot"></param>
     public static void CreateWidgetBindCode(ref StringBuilder strBuilder, Transform transRoot)
     {
         foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
@@ -442,6 +480,10 @@ public partial class UICodeSpawner
         }
     }
     
+    /// <summary>
+    /// 生成新建物体 属性的声明
+    /// </summary>
+    /// <param name="strBuilder"></param>
     public static void CreateDeclareCode(ref StringBuilder strBuilder)
     {
 	    foreach (KeyValuePair<string,List<Component> > pair in Path2WidgetCachedDict)
@@ -465,6 +507,11 @@ public partial class UICodeSpawner
 	    }
     }
 
+    /// <summary>
+    /// 得到新增的物体的name和Component
+    /// </summary>
+    /// <param name="trans"></param>
+    /// <param name="strPath"></param>
     public static void FindAllWidgets(Transform trans, string strPath)
 	{
 		if (null == trans)

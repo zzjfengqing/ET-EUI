@@ -17,7 +17,7 @@ namespace ET
 
 		public static void ShowWindow(this DlgLogin self, Entity contextData = null)
 		{
-			
+			self.View.ESCommonUILH.SetLabelContent("登录界面");
 		}
 		
 		public static void OnLoginClickHandler(this DlgLogin self)

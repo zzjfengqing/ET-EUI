@@ -18,6 +18,10 @@ public partial class UICodeSpawner
         AssetDatabase.Refresh();
     }
     
+    /// <summary>
+    /// 生成HotfixView/Demo/UIBehaviour/CommonUI下的  公共UI 生命周期代码
+    /// </summary>
+    /// <param name="objPanel"></param>
     static void SpawnCodeForSubUI(GameObject objPanel)
     {
         if (null == objPanel)
@@ -71,6 +75,10 @@ public partial class UICodeSpawner
         sw.Close();
     }
     
+    /// <summary>
+    /// 生成ModelView/Demo/UIBehaviour/CommonUI下的  公共UI 新增物体 及组件  相关属性代码
+    /// </summary>
+    /// <param name="objPanel"></param>
     static void SpawnCodeForSubUIBehaviour(GameObject objPanel)
     {
         if (null == objPanel)
