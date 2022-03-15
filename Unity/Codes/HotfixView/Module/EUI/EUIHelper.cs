@@ -153,8 +153,35 @@ namespace ET
 
         #endregion
         
-  #region UI按钮事件
+#region UI按钮事件
 
+        public static void AddListenerAsync(this Button button, Func<ETTask> action)
+        {
+            button.onClick.RemoveAllListeners();
+
+            async ETTask clickActionAsync()
+            {
+                UIEventComponent.Instance.SetUIClicked(true);
+                await action();
+                UIEventComponent.Instance.SetUIClicked(false);
+            }
+            
+            button.onClick.AddListener(() =>
+            {
+                if (UIEventComponent.Instance == null)
+                {
+                    return;
+                }
+
+                if (UIEventComponent.Instance.IsClicked)
+                {
+                    return; 
+                }
+      
+                clickActionAsync().Coroutine();
+            });
+        }
+  
         public static void AddListener(this Toggle toggle, UnityAction<bool> selectEventHandler)
         {
             toggle.onValueChanged.RemoveAllListeners();
@@ -201,7 +228,7 @@ namespace ET
             closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(() => { self.DomainScene().GetComponent<UIComponent>().HideWindow(self.GetParent<UIBaseWindow>().WindowID); });
         }
-        #endregion
+#endregion
         
     }
 }
