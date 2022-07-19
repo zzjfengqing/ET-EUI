@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace ET
 {
@@ -17,7 +18,7 @@ namespace ET
 
 		public static void ShowWindow(this DlgLogin self, Entity contextData = null)
 		{
-			
+			self.View.E_LoginImage.transform.DOScale(Vector3.one * 0.8f, 3f);
 		}
 		
 		public static void OnLoginClickHandler(this DlgLogin self)
