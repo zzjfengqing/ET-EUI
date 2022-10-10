@@ -41,5 +41,9 @@ namespace ET
             self.DBComponents[zone] = dbComponent;
             return dbComponent;
         }
+        public static DBComponent GetZoneDB(this Session session)
+        {
+            return DBManagerComponent.Instance.GetZoneDB(session.DomainZone());
+        }
     }
 }
