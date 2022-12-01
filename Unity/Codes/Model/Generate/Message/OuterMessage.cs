@@ -530,4 +530,13 @@ namespace ET
 
 	}
 
+	[Message(OuterOpcode.A2C_Disconnect)]
+	[ProtoContract]
+	public partial class A2C_Disconnect: Object, IMessage
+	{
+		[ProtoMember(1)]
+		public int Error { get; set; }
+
+	}
+
 }

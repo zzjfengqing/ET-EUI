@@ -29,7 +29,7 @@ namespace ET
 
         private static async ETTask AutoRemoveKey(this TokenComponent self, long key, string token)
         {
-            await TimerComponent.Instance.WaitAsync(10 * 60 * 1000);
+            await TimerComponent.Instance.WaitAsync(10 * TimeHelper.Minute);
             string onlineToken = self.Get(key);
             if (!string.IsNullOrEmpty(onlineToken) && onlineToken == token)
             {

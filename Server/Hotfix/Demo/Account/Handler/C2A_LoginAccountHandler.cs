@@ -41,14 +41,14 @@ namespace ET
                 return;
             }
 
-            if (!Regex.IsMatch(request.AccountName.Trim(), @"^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,15}$"))
+            if (!Regex.IsMatch(request.AccountName.Trim(), @"^[a-zA-Z0-9_-]{4,20}$"))
             {
                 response.Error = ErrorCode.ERR_AccountNameFormError;
                 reply();
                 session.Disconnect();
                 return;
             }
-            if (!Regex.IsMatch(request.Password.Trim(), @"^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,15}$"))
+            if (!Regex.IsMatch(request.Password.Trim(), @"^[a-zA-Z0-9_-]{4,20}$"))
             {
                 response.Error = ErrorCode.ERR_PasswordFormError;
                 reply();
@@ -77,7 +77,6 @@ namespace ET
                             response.Error = ErrorCode.ERR_AccountStatusAbnormal;
                             reply();
                             session.Disconnect();
-                            account.Dispose();
                             return;
                         }
                     }
@@ -92,14 +91,25 @@ namespace ET
                         await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(account);
                     }
 
+                    //获取当前帐号登陆情况并强制下线
+                    long accountSessionInstanceId = session.DomainScene().GetComponent<AccountSessionsComponent>().Get(account.Id);
+                    var otherSession = Game.EventSystem.Get(accountSessionInstanceId) as Session;
+                    otherSession?.Send(new A2C_Disconnect() { Error = 0 });
+                    otherSession?.Disconnect();
+
+                    //发放登陆令牌
                     string token = TimeHelper.ServerNow().ToString() + RandomHelper.RandomNumber(int.MinValue, int.MinValue).ToString();
                     session.DomainScene().GetComponent<TokenComponent>().Remove(account.Id);
                     session.DomainScene().GetComponent<TokenComponent>().Add(account.Id, token);
 
+                    //添加超时检测组件
+                    session.AddComponent<AccountCheckOutTimeComponent, long>(account.Id);
+
                     response.AccountId = account.Id;
                     response.Token = token;
+
                     reply();
-                    account.Dispose();
+                    account?.Dispose();
                 }
             }
 
