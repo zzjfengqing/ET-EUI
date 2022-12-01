@@ -40,5 +40,10 @@ namespace ET
         /// 帐号状态异常
         /// </summary>
         public const int ERR_AccountStatusAbnormal = 200007;
+
+        /// <summary>
+        /// 重复请求
+        /// </summary>
+        public const int ERR_RequestRepeatedly = 200008;
     }
 }

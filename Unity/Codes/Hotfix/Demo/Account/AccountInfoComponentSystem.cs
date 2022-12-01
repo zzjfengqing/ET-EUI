@@ -15,7 +15,7 @@ namespace ET
         }
     }
 
-    public class AccountInfoComponentSystem
+    public static class AccountInfoComponentSystem
     {
     }
 }
