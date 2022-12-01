@@ -27,6 +27,9 @@ namespace ET
             }
             zoneScene.AddComponent<SessionComponent>().Session = accountSession;
 
+            zoneScene.GetComponent<AccountInfoComponent>().AccountId = response.AccountId;
+            zoneScene.GetComponent<AccountInfoComponent>().Token = response.Token;
+
             return ErrorCode.ERR_Success;
         }
     }

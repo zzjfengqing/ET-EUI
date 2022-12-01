@@ -523,7 +523,7 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(1)]
-		public int Token { get; set; }
+		public string Token { get; set; }
 
 		[ProtoMember(2)]
 		public long AccountId { get; set; }

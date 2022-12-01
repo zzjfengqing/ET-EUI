@@ -252,6 +252,6 @@ message A2C_LoginAccount // IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
-	int32 Token = 1;
+	string Token = 1;
 	int64 AccountId = 2;
 }

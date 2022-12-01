@@ -15,5 +15,30 @@ namespace ET
         // 200001以上不抛异常
 
         public const int ERR_NetWorkError = 200002;
+
+        /// <summary>
+        /// 帐号信息为空
+        /// </summary>
+        public const int ERR_AccountInfoIsNull = 200003;
+
+        /// <summary>
+        /// 账户名格式错误
+        /// </summary>
+        public const int ERR_AccountNameFormError = 200004;
+
+        /// <summary>
+        /// 账号密码错误
+        /// </summary>
+        public const int ERR_PasswordFormError = 200005;
+
+        /// <summary>
+        /// 账户名或密码错误
+        /// </summary>
+        public const int ERR_AccountInfoError = 200006;
+
+        /// <summary>
+        /// 帐号状态异常
+        /// </summary>
+        public const int ERR_AccountStatusAbnormal = 200007;
     }
 }
