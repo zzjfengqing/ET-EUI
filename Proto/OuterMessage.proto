@@ -260,3 +260,27 @@ message A2C_Disconnect // IMessage
 {
 	int32 Error = 1;
 }
+
+
+message NServerInfo
+{
+	int32 Id = 1;
+	int32 Status = 2;
+	string ServerName = 3;
+}
+
+//ResponseType A2C_GetServerInfos
+message C2A_GetServerInfos	//	IRequest
+{
+	int32 RpcId = 90;
+	string Token = 1;
+	int64 AccountId = 2;
+}
+
+message A2C_GetServerInfos	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+	repeated NServerInfo ServerInfos = 1;
+}
