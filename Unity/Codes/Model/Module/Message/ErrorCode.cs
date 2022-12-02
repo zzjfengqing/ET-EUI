@@ -50,5 +50,12 @@ namespace ET
         /// 令牌错误
         /// </summary>
         public const int ERR_TokenError = 200009;
+
+        /// <summary>
+        /// 角色名为空
+        /// </summary>
+        public const int ERR_RoleNameIsNull = 200010;
+
+        public const int ERR_RoleNameSame = 200011;
     }
 }

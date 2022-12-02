@@ -319,7 +319,7 @@ namespace ET
                         entity.Domain = this.domain;
                     }
 #else
-                    this.children.Foreach((_, entity) => {entity.Domain = this.domain;});
+                    this.children.Foreach((_, entity) => { entity.Domain = this.domain; });
 #endif
                 }
 
@@ -331,7 +331,7 @@ namespace ET
                         component.Domain = this.domain;
                     }
 #else
-                    this.components.Foreach((_, component) => { component.Domain = this.domain;});
+                    this.components.Foreach((_, component) => { component.Domain = this.domain; });
 #endif
                 }
 
@@ -465,7 +465,7 @@ namespace ET
                     kv.Value.Dispose();
                 }
 #else
-                this.components.Foreach((_, entity) => {entity.Dispose();});
+                this.components.Foreach((_, entity) => { entity.Dispose(); });
 #endif
 
                 this.components.Clear();
@@ -493,7 +493,7 @@ namespace ET
                     child.Dispose();
                 }
 #else
-                this.children.Foreach((_, child) => {child.Dispose();});
+                this.children.Foreach((_, child) => { child.Dispose(); });
 #endif
 
                 this.children.Clear();
@@ -867,7 +867,7 @@ namespace ET
         public T AddChild<T>(bool isFromPool = false) where T : Entity, IAwake
         {
             Type type = typeof(T);
-            T component = (T)Entity.Create(type, isFromPool);
+            T component = (T)Create(type, isFromPool);
             component.Id = IdGenerater.Instance.GenerateId();
             component.Parent = this;
 
@@ -878,7 +878,7 @@ namespace ET
         public T AddChild<T, A>(A a, bool isFromPool = false) where T : Entity, IAwake<A>
         {
             Type type = typeof(T);
-            T component = (T)Entity.Create(type, isFromPool);
+            T component = (T)Create(type, isFromPool);
             component.Id = IdGenerater.Instance.GenerateId();
             component.Parent = this;
 
@@ -889,7 +889,7 @@ namespace ET
         public T AddChild<T, A, B>(A a, B b, bool isFromPool = false) where T : Entity, IAwake<A, B>
         {
             Type type = typeof(T);
-            T component = (T)Entity.Create(type, isFromPool);
+            T component = (T)Create(type, isFromPool);
             component.Id = IdGenerater.Instance.GenerateId();
             component.Parent = this;
 
@@ -900,7 +900,7 @@ namespace ET
         public T AddChild<T, A, B, C>(A a, B b, C c, bool isFromPool = false) where T : Entity, IAwake<A, B, C>
         {
             Type type = typeof(T);
-            T component = (T)Entity.Create(type, isFromPool);
+            T component = (T)Create(type, isFromPool);
             component.Id = IdGenerater.Instance.GenerateId();
             component.Parent = this;
 
@@ -911,7 +911,7 @@ namespace ET
         public T AddChild<T, A, B, C, D>(A a, B b, C c, D d, bool isFromPool = false) where T : Entity, IAwake<A, B, C, D>
         {
             Type type = typeof(T);
-            T component = (T)Entity.Create(type, isFromPool);
+            T component = (T)Create(type, isFromPool);
             component.Id = IdGenerater.Instance.GenerateId();
             component.Parent = this;
 
@@ -922,7 +922,7 @@ namespace ET
         public T AddChildWithId<T>(long id, bool isFromPool = false) where T : Entity, IAwake, new()
         {
             Type type = typeof(T);
-            T component = Entity.Create(type, isFromPool) as T;
+            T component = Create(type, isFromPool) as T;
             component.Id = id;
             component.Parent = this;
             EventSystem.Instance.Awake(component);
@@ -932,7 +932,7 @@ namespace ET
         public T AddChildWithId<T, A>(long id, A a, bool isFromPool = false) where T : Entity, IAwake<A>
         {
             Type type = typeof(T);
-            T component = (T)Entity.Create(type, isFromPool);
+            T component = (T)Create(type, isFromPool);
             component.Id = id;
             component.Parent = this;
 
@@ -943,7 +943,7 @@ namespace ET
         public T AddChildWithId<T, A, B>(long id, A a, B b, bool isFromPool = false) where T : Entity, IAwake<A, B>
         {
             Type type = typeof(T);
-            T component = (T)Entity.Create(type, isFromPool);
+            T component = (T)Create(type, isFromPool);
             component.Id = id;
             component.Parent = this;
 
@@ -954,7 +954,7 @@ namespace ET
         public T AddChildWithId<T, A, B, C>(long id, A a, B b, C c, bool isFromPool = false) where T : Entity, IAwake<A, B, C>
         {
             Type type = typeof(T);
-            T component = (T)Entity.Create(type, isFromPool);
+            T component = (T)Create(type, isFromPool);
             component.Id = id;
             component.Parent = this;
 

@@ -1,7 +1,7 @@
 ﻿namespace ET
 {
     [EnableMethod]
-    public sealed class Scene: Entity
+    public sealed class Scene : Entity
     {
         public int Zone
         {
@@ -52,7 +52,7 @@
         public override void Dispose()
         {
             base.Dispose();
-            
+
             Log.Info($"scene dispose: {this.SceneType} {this.Name} {this.Id} {this.InstanceId} {this.Zone}");
         }
 

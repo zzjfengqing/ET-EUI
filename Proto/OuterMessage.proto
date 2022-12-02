@@ -300,9 +300,9 @@ message C2A_CreateRole	//	IRequest
 {
 	int32 RpcId = 90;
 	string Token = 1;
-	int64 AccountId = 2;
-	string Name = 3;
-	int64 ServerId = 4;
+	string Name = 2;
+	int32 ServerId = 3;
+	int64 AccountId = 4;
 }
 
 message A2C_CreateRole	//	IResponse

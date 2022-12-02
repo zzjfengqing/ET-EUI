@@ -14,13 +14,9 @@ namespace ET
         {
             #region 校验
 
-            //由账号服务器处理
-            if (session.DomainScene().SceneType != SceneType.Account)
-            {
-                Log.Error($"请求的Scene错误,当前Scene为:{session.DomainScene().SceneType}");
-                session?.Dispose();
+            //服务器类型校验
+            if (!session.CheckSceneType(SceneType.Account))
                 return;
-            }
 
             session.RemoveComponent<SessionAcceptTimeoutComponent>();
 

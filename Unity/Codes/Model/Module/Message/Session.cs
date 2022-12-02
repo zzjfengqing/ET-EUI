@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.ServiceModel.Channels;
+using static System.Collections.Specialized.BitVector32;
 
 namespace ET
 {
@@ -141,9 +143,26 @@ namespace ET
             self.LastSendTime = TimeHelper.ClientNow();
             self.AService.SendStream(self.Id, actorId, memoryStream);
         }
+
+        /// <summary>
+        /// 服务器类型校验
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="sceneType"></param>
+        /// <returns></returns>
+        public static bool CheckSceneType(this Session self, SceneType sceneType)
+        {
+            if (self.DomainScene().SceneType != sceneType)
+            {
+                Log.Error($"请求的Scene错误,当前Scene为:{self.DomainScene().SceneType}");
+                self?.Dispose();
+                return false;
+            }
+            return true;
+        }
     }
 
-    [ChildType(typeof(Account))]
+    [ChildType]
     public sealed class Session : Entity, IAwake<AService>, IDestroy
     {
         public AService AService;

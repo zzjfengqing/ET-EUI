@@ -28,6 +28,8 @@
 
     <Compile Include="..\..\Unity\Codes\Model\Demo\Account\Account.cs" Link="Demo\Account\Account.cs" />
 
+    <Compile Include="..\..\Unity\Codes\Model\Demo\Role\RoleInfo.cs" Link="Demo\Role\RoleInfo.cs" />
+
     <Compile Include="..\..\Unity\Codes\Model\Demo\ServerInfo\ServerInfo.cs" Link="Demo\ServerInfo\ServerInfo.cs" />
 
     <Compile Include="..\..\Unity\Codes\Model\Demo\Unit\UnitType.cs">
@@ -124,5 +126,8 @@
     <ProjectReference Include="..\..\ThirdParty\ShareLib\ShareLib.csproj" />
     <ProjectReference Include="..\..\ThirdParty\UnityEngine\UnityEngine.csproj" />
     <ProjectReference Include="..\..\Tools\Analyzer\Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Demo\Role\" />
   </ItemGroup>
 </Project>

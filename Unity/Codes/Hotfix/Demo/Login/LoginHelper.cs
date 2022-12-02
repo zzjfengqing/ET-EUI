@@ -42,8 +42,7 @@ namespace ET
         /// <returns>状态码</returns>
         public static async ETTask<int> GetServerInfos(Scene zoneScene)
         {
-            A2C_GetServerInfos response = null;
-
+            A2C_GetServerInfos response;
             try
             {
                 response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_GetServerInfos()
@@ -64,7 +63,7 @@ namespace ET
             }
             //todo:记录服务器列表信息
             var serverInfoComponent = zoneScene.GetComponent<ServerInfoComponent>();
-            foreach (var nServerInfo in response.ServerInfos)
+            foreach (var nServerInfo in response.NServerInfos)
             {
                 var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
                 serverInfo.FromNServerInfo(nServerInfo);

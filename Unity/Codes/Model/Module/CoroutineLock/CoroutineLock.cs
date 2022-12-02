@@ -3,7 +3,7 @@ using System;
 namespace ET
 {
     [ObjectSystem]
-    public class CoroutineLockAwakeSystem: AwakeSystem<CoroutineLock, int, long, int>
+    public class CoroutineLockAwakeSystem : AwakeSystem<CoroutineLock, int, long, int>
     {
         public override void Awake(CoroutineLock self, int type, long k, int count)
         {
@@ -14,7 +14,7 @@ namespace ET
     }
 
     [ObjectSystem]
-    public class CoroutineLockDestroySystem: DestroySystem<CoroutineLock>
+    public class CoroutineLockDestroySystem : DestroySystem<CoroutineLock>
     {
         public override void Destroy(CoroutineLock self)
         {
@@ -32,8 +32,8 @@ namespace ET
             self.level = 0;
         }
     }
-    
-    public class CoroutineLock: Entity, IAwake<int, long, int>, IDestroy
+
+    public class CoroutineLock : Entity, IAwake<int, long, int>, IDestroy
     {
         public int coroutineLockType;
         public long key;

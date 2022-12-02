@@ -10,14 +10,10 @@ namespace ET
     {
         protected override async ETTask Run(Session session, C2A_GetServerInfos request, A2C_GetServerInfos response, Action reply)
         {
-            //服务器校验
             Scene scene = session.DomainScene();
-            if (scene.SceneType != SceneType.Account)
-            {
-                Log.Error($"请求的Scene错误,当前Scene为:{scene.SceneType}");
-                session.Disconnect();
+            //服务器校验
+            if (!session.CheckSceneType(SceneType.Account))
                 return;
-            }
 
             //令牌校验
             string token = scene.GetComponent<TokenComponent>().Get(request.AccountId);
@@ -32,7 +28,7 @@ namespace ET
             //加载服务器信息
             foreach (var serverInfo in scene.GetComponent<ServerInfoManagerComponent>().ServerInfos)
             {
-                response.ServerInfos.Add(serverInfo.ToNServerInfo());
+                response.NServerInfos.Add(serverInfo.ToNServerInfo());
             }
             reply();
             await ETTask.CompletedTask;

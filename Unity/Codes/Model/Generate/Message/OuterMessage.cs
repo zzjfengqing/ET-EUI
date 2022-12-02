@@ -627,13 +627,13 @@ namespace ET
 		public string Token { get; set; }
 
 		[ProtoMember(2)]
-		public long AccountId { get; set; }
-
-		[ProtoMember(3)]
 		public string Name { get; set; }
 
+		[ProtoMember(3)]
+		public int ServerId { get; set; }
+
 		[ProtoMember(4)]
-		public long ServerId { get; set; }
+		public long AccountId { get; set; }
 
 	}
 

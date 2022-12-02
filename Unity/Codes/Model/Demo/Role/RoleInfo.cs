@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace ET
 {
+    public enum RoleInfoStatus
+    {
+        Normal,
+        Freeze
+    }
+
     public class RoleInfo : Entity, IAwake
     {
         public string Name { get; set; }
