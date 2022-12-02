@@ -8,14 +8,14 @@ namespace ET
 {
     public static class ServerInfoSystem
     {
-        public static void FromMessage(this ServerInfo self, NServerInfo nServerInfo)
+        public static void FromNServerInfo(this ServerInfo self, NServerInfo nServerInfo)
         {
             self.Id = nServerInfo.Id;
             self.Status = nServerInfo.Status;
             self.ServerName = nServerInfo.ServerName;
         }
 
-        public static NServerInfo ToMessage(this ServerInfo self)
+        public static NServerInfo ToNServerInfo(this ServerInfo self)
         {
             return new NServerInfo()
             {

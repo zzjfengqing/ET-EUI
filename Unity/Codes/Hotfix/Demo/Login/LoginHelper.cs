@@ -67,7 +67,7 @@ namespace ET
             foreach (var nServerInfo in response.ServerInfos)
             {
                 var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
-                serverInfo.FromMessage(nServerInfo);
+                serverInfo.FromNServerInfo(nServerInfo);
                 serverInfoComponent.Add(serverInfo);
             }
             return ErrorCode.ERR_Success;
