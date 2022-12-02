@@ -28,6 +28,8 @@
 
     <Compile Include="..\..\Unity\Codes\Model\Demo\Account\Account.cs" Link="Demo\Account\Account.cs" />
 
+    <Compile Include="..\..\Unity\Codes\Model\Demo\ServerInfo\ServerInfo.cs" Link="Demo\ServerInfo\ServerInfo.cs" />
+
     <Compile Include="..\..\Unity\Codes\Model\Demo\Unit\UnitType.cs">
       <Link>Demo\Unit\UnitType.cs</Link>
     </Compile>
