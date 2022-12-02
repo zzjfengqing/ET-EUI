@@ -63,6 +63,13 @@ namespace ET
                 return response.Error;
             }
             //todo:记录服务器列表信息
+            var serverInfoComponent = zoneScene.GetComponent<ServerInfoComponent>();
+            foreach (var nServerInfo in response.ServerInfos)
+            {
+                var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
+                serverInfo.FromMessage(nServerInfo);
+                serverInfoComponent.Add(serverInfo);
+            }
             return ErrorCode.ERR_Success;
         }
     }
