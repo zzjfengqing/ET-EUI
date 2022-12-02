@@ -34,5 +34,36 @@ namespace ET
 
             return ErrorCode.ERR_Success;
         }
+
+        /// <summary>
+        /// 获取服务器列表
+        /// </summary>
+        /// <param name="zoneScene"></param>
+        /// <returns>状态码</returns>
+        public static async ETTask<int> GetServerInfos(Scene zoneScene)
+        {
+            A2C_GetServerInfos response = null;
+
+            try
+            {
+                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_GetServerInfos()
+                {
+                    AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
+                    Token = zoneScene.GetComponent<AccountInfoComponent>().Token
+                }) as A2C_GetServerInfos;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
+
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                return response.Error;
+            }
+            //todo:记录服务器列表信息
+            return ErrorCode.ERR_Success;
+        }
     }
 }
