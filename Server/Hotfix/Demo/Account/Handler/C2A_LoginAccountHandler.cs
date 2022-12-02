@@ -48,13 +48,13 @@ namespace ET
                 session.Disconnect();
                 return;
             }
-            if (!Regex.IsMatch(request.Password.Trim(), @"^[a-zA-Z0-9_-]{4,20}$"))
-            {
-                response.Error = ErrorCode.ERR_PasswordFormError;
-                reply();
-                session.Disconnect();
-                return;
-            }
+            //if (!Regex.IsMatch(request.Password.Trim(), @"^[a-zA-Z0-9_-]{4,20}$"))
+            //{
+            //    response.Error = ErrorCode.ERR_PasswordFormError;
+            //    reply();
+            //    session.Disconnect();
+            //    return;
+            //}
 
             #endregion 校验
 
