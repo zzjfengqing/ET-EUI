@@ -68,7 +68,7 @@ namespace ET
             {
                 var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
                 serverInfo.FromNServerInfo(nServerInfo);
-                serverInfoComponent.Add(serverInfo);
+                serverInfoComponent.Add(serverInfo);//todo:为什么要再加一遍???
             }
             return ErrorCode.ERR_Success;
         }
