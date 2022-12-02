@@ -73,8 +73,35 @@ namespace ET
             return ErrorCode.ERR_Success;
         }
 
+        /// <summary>
+        /// 创建角色
+        /// </summary>
+        /// <param name="zoneScene"></param>
+        /// <param name="roleName">角色名</param>
+        /// <returns>状态码</returns>
         public static async ETTask<int> CreateRole(Scene zoneScene, string roleName)
         {
+            A2C_CreateRole response = null;
+            try
+            {
+                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_CreateRole()
+                {
+                    AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
+                    Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
+                    Name = roleName,
+                    ServerId = 1,
+                }) as A2C_CreateRole;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error(response.Error.ToString());
+                return response.Error;
+            }
             return ErrorCode.ERR_Success;
         }
     }
