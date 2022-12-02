@@ -12,7 +12,8 @@ namespace ET
             try
             {
                 accountSession = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(address));
-                response = await accountSession.Call(new C2A_LoginAccount() { AccountName = account, Password = password }) as A2C_LoginAccount;
+                var passwordMd5 = MD5Helper.StringMD5(password);
+                response = await accountSession.Call(new C2A_LoginAccount() { AccountName = account, Password = passwordMd5 }) as A2C_LoginAccount;
             }
             catch (Exception e)
             {
@@ -26,6 +27,7 @@ namespace ET
                 return response.Error;
             }
             zoneScene.AddComponent<SessionComponent>().Session = accountSession;
+            zoneScene.GetComponent<SessionComponent>().Session.AddComponent<PingComponent>();
 
             zoneScene.GetComponent<AccountInfoComponent>().AccountId = response.AccountId;
             zoneScene.GetComponent<AccountInfoComponent>().Token = response.Token;
