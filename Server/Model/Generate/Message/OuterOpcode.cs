@@ -38,5 +38,8 @@ namespace ET
 		 public const ushort NServerInfo = 10035;
 		 public const ushort C2A_GetServerInfos = 10036;
 		 public const ushort A2C_GetServerInfos = 10037;
+		 public const ushort NRoleInfo = 10038;
+		 public const ushort C2A_CreateRole = 10039;
+		 public const ushort A2C_CreateRole = 10040;
 	}
 }

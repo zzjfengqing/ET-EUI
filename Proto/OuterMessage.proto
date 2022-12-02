@@ -282,5 +282,33 @@ message A2C_GetServerInfos	//	IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
-	repeated NServerInfo ServerInfos = 1;
+	repeated NServerInfo NServerInfos = 1;
+}
+
+message NRoleInfo
+{
+	int64 Id = 1;
+	string Name = 2;
+	int32 ServerId = 3;
+	int32 Status = 4;
+	int64 AccountId = 5;
+	int64 LastLoginTIme = 6;
+	int64 CreateTime = 7;
+}
+//ResponseType A2C_CreateRole
+message C2A_CreateRole	//	IRequest
+{
+	int32 RpcId = 90;
+	string Token = 1;
+	int64 AccountId = 2;
+	string Name = 3;
+	int64 ServerId = 4;
+}
+
+message A2C_CreateRole	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+	NRoleInfo NRoleInfo = 1;
 }
