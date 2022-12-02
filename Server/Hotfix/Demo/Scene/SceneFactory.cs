@@ -43,6 +43,11 @@ namespace ET
                     scene.AddComponent<TokenComponent>();
                     scene.AddComponent<AccountSessionsComponent>();
                     break;
+
+                case SceneType.LoginCenter:
+                    scene.AddComponent<NetKcpComponent, IPEndPoint, int>(startSceneConfig.OuterIPPort, SessionStreamDispatcherType.SessionStreamDispatcherServerOuter);
+                    scene.AddComponent<LoginInfoRecordComponent>();
+                    break;
             }
 
             return scene;
