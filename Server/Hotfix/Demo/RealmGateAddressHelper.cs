@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 
-
 namespace ET
 {
-	public static class RealmGateAddressHelper
-	{
-		public static StartSceneConfig GetGate(int zone)
-		{
-			List<StartSceneConfig> zoneGates = StartSceneConfigCategory.Instance.Gates[zone];
-			
-			int n = RandomHelper.RandomNumber(0, zoneGates.Count);
+    public static class RealmGateAddressHelper
+    {
+        public static StartSceneConfig GetGate(int zone, long accountId)
+        {
+            List<StartSceneConfig> zoneGates = StartSceneConfigCategory.Instance.Gates[zone];
 
-			return zoneGates[n];
-		}
-	}
+            //int n = RandomHelper.RandomNumber(0, zoneGates.Count);
+            int n = accountId.GetHashCode() % zoneGates.Count;
+
+            return zoneGates[n];
+        }
+    }
 }
