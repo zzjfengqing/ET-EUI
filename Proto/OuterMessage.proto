@@ -331,3 +331,22 @@ message A2C_GetRoles	//	IResponse
 	repeated NRoleInfo NRoleInfos = 1;
 }
 
+//ResponseType A2C_DelteRole
+message C2A_DelteRole	//	IRequest
+{
+	int32 RpcId = 90;
+	string Token = 1;
+	int64 AccountId = 2;
+	int64 RoleId = 3;
+	int32 ServerId = 4;
+}
+
+message A2C_DelteRole	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+	int64 RoleId = 1;
+}
+
+

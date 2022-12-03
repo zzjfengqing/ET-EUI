@@ -43,5 +43,7 @@ namespace ET
 		 public const ushort A2C_CreateRole = 10040;
 		 public const ushort C2A_GetRoles = 10041;
 		 public const ushort A2C_GetRoles = 10042;
+		 public const ushort C2A_DelteRole = 10043;
+		 public const ushort A2C_DelteRole = 10044;
 	}
 }

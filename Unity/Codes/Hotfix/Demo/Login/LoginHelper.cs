@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace ET
 {
@@ -146,6 +147,37 @@ namespace ET
                 zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Add(roleInfo);
             }
 
+            return ErrorCode.ERR_Success;
+        }
+
+        public static async Task<int> DeleteRole(Scene zoneScene, long roleId)
+        {
+            A2C_DelteRole response = null;
+            try
+            {
+                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_DelteRole()
+                {
+                    Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
+                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
+                    RoleId = roleId
+                }) as A2C_DelteRole;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
+
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error(response.Error.ToString());
+                return response.Error;
+            }
+
+            //删除本地数据
+            var roleInfos = zoneScene.GetComponent<RoleInfosComponent>().RoleInfos;
+            int index = roleInfos.FindIndex(role => role.Id == response.RoleId);
+            roleInfos.RemoveAt(index);
             return ErrorCode.ERR_Success;
         }
     }
