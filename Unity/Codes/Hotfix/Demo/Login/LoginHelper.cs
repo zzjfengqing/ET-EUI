@@ -108,5 +108,9 @@ namespace ET
 
             return ErrorCode.ERR_Success;
         }
+
+        public static async ETTask<int> GetRoles(Scene zoneScene)
+        {
+        }
     }
 }
