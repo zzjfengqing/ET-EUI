@@ -295,6 +295,7 @@ message NRoleInfo
 	int64 LastLoginTIme = 6;
 	int64 CreateTime = 7;
 }
+
 //ResponseType A2C_CreateRole
 message C2A_CreateRole	//	IRequest
 {
@@ -312,3 +313,21 @@ message A2C_CreateRole	//	IResponse
 	string Message = 92;
 	NRoleInfo NRoleInfo = 1;
 }
+
+//ResponseType A2C_GetRoles
+message C2A_GetRoles	//	IRequest
+{
+	int32 RpcId = 90;
+	string Token = 1;
+	int32 ServerId = 2;
+	int64 AccountId = 3;
+}
+
+message A2C_GetRoles	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+	repeated NRoleInfo NRoleInfos = 1;
+}
+
