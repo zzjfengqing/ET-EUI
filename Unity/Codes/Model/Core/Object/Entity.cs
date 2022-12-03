@@ -448,6 +448,7 @@ namespace ET
 
         public override void Dispose()
         {
+            Log.Debug($"[{ToString()}]{GetType()}.Dispose()");
             if (this.IsDisposed)
             {
                 return;

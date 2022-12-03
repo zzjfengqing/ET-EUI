@@ -88,7 +88,7 @@ namespace ET
                     AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
                     Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
                     Name = roleName,
-                    ServerId = 1,
+                    //ServerId = zoneScene.GetComponent<ServerInfoComponent>().ServerInfos[0].Id,
                 }) as A2C_CreateRole;
             }
             catch (Exception e)
