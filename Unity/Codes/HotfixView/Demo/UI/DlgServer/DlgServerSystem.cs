@@ -21,7 +21,7 @@ namespace ET
         {
             int count = self.ZoneScene().GetComponent<ServerInfosComponent>().ServerInfos.Count;
             self.AddUIScrollItems(ref self.ScrollItemServerInfos, count);
-            self.View.EL_ServerListLoopVerticalScrollRect.SetVisible(count > 0, count);
+            self.View.EL_ServerListLoopVerticalScrollRect.SetVisible(true, count);
         }
 
         public static void HideWindow(this DlgServer self)
