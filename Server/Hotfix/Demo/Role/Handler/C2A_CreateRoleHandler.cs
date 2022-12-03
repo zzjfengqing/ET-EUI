@@ -43,12 +43,14 @@ namespace ET
 
             #endregion 校验
 
+            #region 创建角色
+
             //创建角色
             using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.CreateRole, request.AccountId))
             {
                 //角色名查重
                 List<RoleInfo> roleInfos = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                    .Query<RoleInfo>(r => r.ServerId == request.ServerId && r.Name == request.Name);
+                    .Query<RoleInfo>(r => r.Name == request.Name && r.ServerId == request.ServerId);
                 if (roleInfos?.Count > 0)
                 {
                     response.Error = ErrorCode.ERR_RoleNameSame;
@@ -69,6 +71,8 @@ namespace ET
                 reply();
                 roleInfo?.Dispose();
             }
+
+            #endregion 创建角色
         }
     }
 }
