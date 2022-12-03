@@ -109,8 +109,42 @@ namespace ET
             return ErrorCode.ERR_Success;
         }
 
+        /// <summary>
+        /// 获取当前服务器(区)角色列表
+        /// </summary>
+        /// <param name="zoneScene"></param>
+        /// <returns></returns>
         public static async ETTask<int> GetRoles(Scene zoneScene)
         {
+            A2C_GetRoles response = null;
+            try
+            {
+                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_GetRoles()
+                {
+                    Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
+                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
+                    AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
+                }) as A2C_GetRoles;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
+
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error(response.Error.ToString());
+                return response.Error;
+            }
+
+            for (int i = 0; i < response.NRoleInfos.Count; i++)
+            {
+                var newRoleInfo = zoneScene.GetComponent<RoleInfosComponent>().AddChild<RoleInfo>();
+                newRoleInfo.FromNServerInfo(response.NRoleInfos[i]);
+            }
+
+            return ErrorCode.ERR_Success;
         }
     }
 }

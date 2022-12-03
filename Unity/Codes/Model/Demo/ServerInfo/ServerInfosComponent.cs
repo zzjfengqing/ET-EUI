@@ -10,7 +10,7 @@ namespace ET
     [ChildType(typeof(ServerInfo))]
     public class ServerInfosComponent : Entity, IAwake, IDestroy
     {
-        public List<ServerInfo> ServerInfos { get; set; } = new List<ServerInfo>();
+        public List<ServerInfo> ServerInfos { get; } = new List<ServerInfo>();
         public int CurServerId { get; set; } = 0;
     }
 }
