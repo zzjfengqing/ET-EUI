@@ -8,7 +8,7 @@ namespace ET
 {
     [ComponentOf(typeof(Scene))]
     [ChildType(typeof(ServerInfo))]
-    public class ServerInfoComponent : Entity, IAwake, IDestroy
+    public class ServerInfosComponent : Entity, IAwake, IDestroy
     {
         public List<ServerInfo> ServerInfos { get; set; } = new List<ServerInfo>();
         public int CurServerId { get; set; } = 0;

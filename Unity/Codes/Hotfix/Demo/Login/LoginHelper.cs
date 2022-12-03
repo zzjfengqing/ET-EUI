@@ -62,7 +62,7 @@ namespace ET
                 return response.Error;
             }
             //todo:记录服务器列表信息
-            var serverInfoComponent = zoneScene.GetComponent<ServerInfoComponent>();
+            var serverInfoComponent = zoneScene.GetComponent<ServerInfosComponent>();
             foreach (var nServerInfo in response.NServerInfos)
             {
                 var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
@@ -88,7 +88,7 @@ namespace ET
                     AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
                     Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
                     Name = roleName,
-                    ServerId = zoneScene.GetComponent<ServerInfoComponent>().CurServerId,
+                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
                 }) as A2C_CreateRole;
             }
             catch (Exception e)

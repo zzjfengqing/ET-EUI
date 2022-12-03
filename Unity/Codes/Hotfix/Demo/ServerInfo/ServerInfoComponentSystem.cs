@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ET
 {
-    public class ServerInfoComponentDestroySystem : DestroySystem<ServerInfoComponent>
+    public class ServerInfoComponentDestroySystem : DestroySystem<ServerInfosComponent>
     {
-        public override void Destroy(ServerInfoComponent self)
+        public override void Destroy(ServerInfosComponent self)
         {
             for (int i = 0; i < self.ServerInfos.Count; i++)
             {
@@ -21,7 +21,7 @@ namespace ET
 
     public static class ServerInfoComponentSystem
     {
-        public static void Add(this ServerInfoComponent self, ServerInfo serverInfo)
+        public static void Add(this ServerInfosComponent self, ServerInfo serverInfo)
         {
             self.ServerInfos.Add(serverInfo);
         }

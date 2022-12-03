@@ -32,9 +32,16 @@ namespace ET
                     Log.Error(errorCode.ToString());
                     return;
                 }
+
+                errorCode = await LoginHelper.GetServerInfos(self.DomainScene());
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    Log.Error(errorCode.ToString());
+                    return;
+                }
                 //显示登陆之后的页面逻辑
                 self.DomainScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Login);
-                self.DomainScene().GetComponent<UIComponent>().ShowStackWindow(WindowID.WindowID_Lobby);
+                self.DomainScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Server);
             }
             catch (Exception e)
             {
