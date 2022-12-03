@@ -22,11 +22,11 @@ namespace ET
             }
 
             //令牌校验
-            string token = session.DomainScene().GetComponent<TokenComponent>().Get(request.AccountId.GetHashCode()); ;
+            string token = session.DomainScene().GetComponent<TokenComponent>().Get(request.AccountId); ;
 
             if (token is null || token != request.Token)
             {
-                response.Error = ErrorCode.ERR_RequestRepeatedly;
+                response.Error = ErrorCode.ERR_TokenError;
                 reply();
                 session.Disconnect();
                 return;
@@ -45,31 +45,34 @@ namespace ET
 
             #region 创建角色
 
-            //创建角色
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.CreateRole, request.AccountId))
+            using (session.AddComponent<SessionLoginComponent>())//创建角色时不能进行查询
             {
-                //角色名查重
-                List<RoleInfo> roleInfos = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                    .Query<RoleInfo>(r => r.Name == request.Name && r.ServerId == request.ServerId);
-                if (roleInfos?.Count > 0)
+                //创建角色
+                using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.CreateRole, request.AccountId))
                 {
-                    response.Error = ErrorCode.ERR_RoleNameSame;
+                    //角色名查重
+                    List<RoleInfo> roleInfos = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
+                        .Query<RoleInfo>(r => r.Name == request.Name && r.ServerId == request.ServerId);
+                    if (roleInfos?.Count > 0)
+                    {
+                        response.Error = ErrorCode.ERR_RoleNameSame;
+                        reply();
+                        return;
+                    }
+                    //保存数据库
+                    RoleInfo roleInfo = session.AddChildWithId<RoleInfo>(IdGenerater.Instance.GenerateUnitId(request.ServerId));
+                    roleInfo.Name = request.Name;
+                    roleInfo.ServerId = request.ServerId;
+                    roleInfo.Status = (int)RoleInfoStatus.Normal;
+                    roleInfo.AccountId = request.AccountId;
+                    roleInfo.CreateTime = TimeHelper.ServerNow();
+                    roleInfo.LastLoginTIme = 0;
+                    await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(roleInfo);
+                    //发送响应
+                    response.NRoleInfo = roleInfo.ToNServerInfo();
                     reply();
-                    return;
+                    roleInfo?.Dispose();
                 }
-                //保存数据库
-                RoleInfo roleInfo = session.AddChildWithId<RoleInfo>(IdGenerater.Instance.GenerateUnitId(request.ServerId));
-                roleInfo.Name = request.Name;
-                roleInfo.ServerId = request.ServerId;
-                roleInfo.Status = (int)RoleInfoStatus.Normal;
-                roleInfo.AccountId = request.AccountId;
-                roleInfo.CreateTime = TimeHelper.ServerNow();
-                roleInfo.LastLoginTIme = 0;
-                await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(roleInfo);
-                //发送响应
-                response.NRoleInfo = roleInfo.ToNServerInfo();
-                reply();
-                roleInfo?.Dispose();
             }
 
             #endregion 创建角色

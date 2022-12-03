@@ -67,7 +67,7 @@ namespace ET
             {
                 var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
                 serverInfo.FromNServerInfo(nServerInfo);
-                //serverInfoComponent.Add(serverInfo);
+                serverInfoComponent.Add(serverInfo);
             }
             return ErrorCode.ERR_Success;
         }
@@ -138,10 +138,12 @@ namespace ET
                 return response.Error;
             }
 
+            zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Clear();//UNDONE: 孩子节点并未清除
             for (int i = 0; i < response.NRoleInfos.Count; i++)
             {
-                var newRoleInfo = zoneScene.GetComponent<RoleInfosComponent>().AddChild<RoleInfo>();
-                newRoleInfo.FromNServerInfo(response.NRoleInfos[i]);
+                var roleInfo = zoneScene.GetComponent<RoleInfosComponent>().AddChild<RoleInfo>();
+                roleInfo.FromNServerInfo(response.NRoleInfos[i]);
+                zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Add(roleInfo);
             }
 
             return ErrorCode.ERR_Success;

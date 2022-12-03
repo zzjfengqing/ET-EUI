@@ -16,7 +16,7 @@ namespace ET
             if (!session.CheckSceneType(SceneType.Account))
                 return;
             //重复请求校验
-            if (session.GetComponent<SessionLoginComponent>() != null)
+            if (session.GetComponent<SessionLoginComponent>() != null) //避免重复查询
             {
                 response.Error = ErrorCode.ERR_RequestRepeatedly;
                 reply();
@@ -25,11 +25,11 @@ namespace ET
             }
 
             //令牌校验
-            string token = session.DomainScene().GetComponent<TokenComponent>().Get(request.AccountId.GetHashCode()); ;
+            string token = session.DomainScene().GetComponent<TokenComponent>().Get(request.AccountId); ;
 
             if (token is null || token != request.Token)
             {
-                response.Error = ErrorCode.ERR_RequestRepeatedly;
+                response.Error = ErrorCode.ERR_TokenError;
                 reply();
                 session.Disconnect();
                 return;
@@ -39,17 +39,20 @@ namespace ET
 
             #region 获取角色信息
 
-            //获取角色信息
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.GetRoles, request.AccountId))
+            using (session.AddComponent<SessionLoginComponent>())//查询角色时不能进行创建角色
             {
-                List<RoleInfo> roleInfos = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                    .Query<RoleInfo>(r => r.AccountId == request.AccountId && r.ServerId == request.ServerId && r.Status != ((int)RoleInfoStatus.Freeze));
-                //发送响应
-                foreach (RoleInfo roleInfo in roleInfos)
+                //获取角色信息
+                using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.GetRoles, request.AccountId))
                 {
-                    response.NRoleInfos.Add(roleInfo.ToNServerInfo());
+                    List<RoleInfo> roleInfos = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
+                        .Query<RoleInfo>(r => r.AccountId == request.AccountId && r.ServerId == request.ServerId && r.Status != ((int)RoleInfoStatus.Freeze));
+                    //发送响应
+                    foreach (RoleInfo roleInfo in roleInfos)
+                    {
+                        response.NRoleInfos.Add(roleInfo.ToNServerInfo());
+                    }
+                    reply();
                 }
-                reply();
             }
 
             #endregion 获取角色信息
