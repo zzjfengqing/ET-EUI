@@ -12,9 +12,6 @@ namespace ET
 
         private async ETTask RunAsync(EventType.AppStart args)
         {
-            {
-                var a = new Account();
-            }
             Game.Scene.AddComponent<ConfigComponent>();
             await ConfigComponent.Instance.LoadAsync();
 

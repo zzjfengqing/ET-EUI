@@ -15,6 +15,7 @@ namespace ET
                 self.ServerInfos[i]?.Dispose();
             }
             self.ServerInfos.Clear();
+            self.CurServerId = 0;
         }
     }
 

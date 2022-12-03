@@ -11,5 +11,6 @@ namespace ET
     public class ServerInfoComponent : Entity, IAwake, IDestroy
     {
         public List<ServerInfo> ServerInfos { get; set; } = new List<ServerInfo>();
+        public int CurServerId { get; set; } = 0;
     }
 }

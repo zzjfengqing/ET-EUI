@@ -67,7 +67,7 @@ namespace ET
             {
                 var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
                 serverInfo.FromNServerInfo(nServerInfo);
-                serverInfoComponent.Add(serverInfo);//todo:为什么要再加一遍???
+                //serverInfoComponent.Add(serverInfo);
             }
             return ErrorCode.ERR_Success;
         }
@@ -88,7 +88,7 @@ namespace ET
                     AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
                     Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
                     Name = roleName,
-                    //ServerId = zoneScene.GetComponent<ServerInfoComponent>().ServerInfos[0].Id,
+                    ServerId = zoneScene.GetComponent<ServerInfoComponent>().CurServerId,
                 }) as A2C_CreateRole;
             }
             catch (Exception e)
@@ -96,11 +96,16 @@ namespace ET
                 Log.Error(e);
                 return ErrorCode.ERR_NetWorkError;
             }
+
             if (response.Error != ErrorCode.ERR_Success)
             {
                 Log.Error(response.Error.ToString());
                 return response.Error;
             }
+
+            var newRoleInfo = zoneScene.GetComponent<RoleInfosComponent>().AddChild<RoleInfo>();
+            newRoleInfo.FromNServerInfo(response.NRoleInfo);
+
             return ErrorCode.ERR_Success;
         }
     }
