@@ -100,7 +100,6 @@ namespace ET
 
             if (response.Error != ErrorCode.ERR_Success)
             {
-                Log.Error(response.Error.ToString());
                 return response.Error;
             }
 
@@ -135,7 +134,6 @@ namespace ET
 
             if (response.Error != ErrorCode.ERR_Success)
             {
-                Log.Error(response.Error.ToString());
                 return response.Error;
             }
 
@@ -170,7 +168,6 @@ namespace ET
 
             if (response.Error != ErrorCode.ERR_Success)
             {
-                Log.Error(response.Error.ToString());
                 return response.Error;
             }
 
@@ -202,7 +199,6 @@ namespace ET
 
             if (response.Error != ErrorCode.ERR_Success)
             {
-                Log.Error(response.Error.ToString());
                 return response.Error;
             }
             accountInfoComponent.RealmToken = response.RealmToken;
@@ -214,9 +210,11 @@ namespace ET
         public static async Task<int> EnterGame(Scene zoneScene)
         {
             string realmAddress = zoneScene.GetComponent<AccountInfoComponent>().RealmAddress;
-            Session session = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(realmAddress));
+            Session session;
 
-            #region 连接Realm,获取分配的Gate
+            #region 连接Realm服务器,获取分配的Gate服务器
+
+            session = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(realmAddress));
 
             R2C_LoginRealm realmResponse = null;
             AccountInfoComponent accountInfoComponent = zoneScene.GetComponent<AccountInfoComponent>();
@@ -234,21 +232,46 @@ namespace ET
                 session?.Dispose();
                 return ErrorCode.ERR_NetWorkError;
             }
+            session?.Dispose();
 
             if (realmResponse.Error != ErrorCode.ERR_Success)
             {
-                Log.Error(realmResponse.Error.ToString());
-                session?.Dispose();
                 return realmResponse.Error;
             }
+            Log.Warning($"GateAddress: {realmResponse.GateAddress}");
 
-            #endregion 连接Realm,获取分配的Gate
+            #endregion 连接Realm服务器,获取分配的Gate服务器
 
-            #region 2. 连接分配的Gate网关服务器
+            #region 连接Gate网关服务器
 
-            // TODO: 2. 连接分配的Gate网关服务器
+            session = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(realmResponse.GateAddress));
+            session.AddComponent<PingComponent>();
+            zoneScene.GetComponent<SessionComponent>().Session = session;
+            G2C_LoginGameGate gateResponse;
+            try
+            {
+                gateResponse = await session.Call(new C2G_LoginGameGate()
+                {
+                    AccountId = accountInfoComponent.AccountId,
+                    Key = realmResponse.GateSessionToken,
+                    RoleId = zoneScene.GetComponent<RoleInfosComponent>().CurRoleId
+                }) as G2C_LoginGameGate;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                session?.Dispose();
+                return ErrorCode.ERR_NetWorkError;
+            }
 
-            #endregion 2. 连接分配的Gate网关服务器
+            if (gateResponse.Error != ErrorCode.ERR_Success)
+            {
+                session?.Dispose();
+                return gateResponse.Error;
+            }
+            Log.Debug("登录Gate服务器成功");
+
+            #endregion 连接Gate网关服务器
 
             return ErrorCode.ERR_Success;
         }

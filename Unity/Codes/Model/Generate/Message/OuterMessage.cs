@@ -809,4 +809,41 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(G2C_LoginGameGate))]
+	[Message(OuterOpcode.C2G_LoginGameGate)]
+	[ProtoContract]
+	public partial class C2G_LoginGameGate: Object, IRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public string Key { get; set; }
+
+		[ProtoMember(2)]
+		public long RoleId { get; set; }
+
+		[ProtoMember(3)]
+		public long AccountId { get; set; }
+
+	}
+
+	[Message(OuterOpcode.G2C_LoginGameGate)]
+	[ProtoContract]
+	public partial class G2C_LoginGameGate: Object, IResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public long PlayerId { get; set; }
+
+	}
+
 }
