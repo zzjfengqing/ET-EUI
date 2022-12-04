@@ -22,5 +22,10 @@ namespace ET
                 return;
             self.Dispose();
         }
+
+        internal static void KickPlayer(Player player)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
