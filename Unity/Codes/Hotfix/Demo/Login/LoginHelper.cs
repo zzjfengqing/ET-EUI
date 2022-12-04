@@ -273,6 +273,28 @@ namespace ET
 
             #endregion 连接Gate网关服务器
 
+            #region 角色正式请求进入游戏逻辑服
+
+            G2C_EnterGame g2cEnterGameResponse;
+            try
+            {
+                g2cEnterGameResponse = await session.Call(new C2G_EnterGame() { }) as G2C_EnterGame;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                session?.Dispose();
+                return ErrorCode.ERR_NetWorkError;
+            }
+
+            if (g2cEnterGameResponse.Error != ErrorCode.ERR_Success)
+            {
+                return g2cEnterGameResponse.Error;
+            }
+            Log.Debug("角色进入游戏成功");
+
+            #endregion 角色正式请求进入游戏逻辑服
+
             return ErrorCode.ERR_Success;
         }
     }

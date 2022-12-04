@@ -427,3 +427,19 @@ message G2C_LoginGameGate	//	IResponse
 	int64 PlayerId  = 1;
 }
 
+//ResponseType G2C_EnterGame
+message C2G_EnterGame	//	IRequest
+{
+	int32 RpcId = 90;
+}
+
+message G2C_EnterGame	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	int64 unitId  = 1;
+}
+
+
