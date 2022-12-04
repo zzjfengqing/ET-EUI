@@ -51,7 +51,7 @@ namespace ET
                         break;
 
                     case SceneType.LoginCenter:
-                        this.LocationConfig = startSceneConfig;
+                        this.LoginCenterConfig = startSceneConfig;
                         break;
 
                     case SceneType.Robot:

@@ -124,10 +124,7 @@ namespace ET
 
                     //添加当前会话状态组件-更改当前会话状态
                     sessionStatusComponent = session.GetComponent<SessionStatusComponent>();
-                    if (sessionStatusComponent is null)
-                    {
-                        session.AddComponent<SessionStatusComponent>();
-                    }
+                    sessionStatusComponent ??= session.AddComponent<SessionStatusComponent>();
                     sessionStatusComponent.Status = SessionStatus.Game;
                     player.Status = PlayerStatus.Game;
                 }

@@ -78,10 +78,7 @@ namespace ET
 
                 //添加当前会话状态组件
                 SessionStatusComponent sessionStatusComponent = session.GetComponent<SessionStatusComponent>();
-                if (sessionStatusComponent is null)
-                {
-                    session.AddComponent<SessionStatusComponent>();
-                }
+                sessionStatusComponent ??= session.AddComponent<SessionStatusComponent>();
                 sessionStatusComponent.Status = SessionStatus.Normal;
 
                 //生成玩家对象unit

@@ -47,7 +47,7 @@ namespace ET
 
         public static void KickPlayer(this PlayerOfflineOutTimeComponent self)
         {
-            DisconnectHelper.KickPlayer(self.GetParent<Player>());
+            DisconnectHelper.KickPlayer(self.GetParent<Player>()).Coroutine();
         }
     }
 }
