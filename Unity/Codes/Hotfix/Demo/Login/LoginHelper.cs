@@ -207,6 +207,7 @@ namespace ET
             }
             accountInfoComponent.RealmKey = response.RealmKey;
             accountInfoComponent.RealmAddress = response.RealmAddress;
+            zoneScene.GetComponent<SessionComponent>().Session.Dispose();
             return ErrorCode.ERR_Success;
         }
     }

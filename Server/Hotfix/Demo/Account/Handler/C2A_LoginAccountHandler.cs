@@ -12,11 +12,19 @@ namespace ET
     {
         protected override async ETTask Run(Session session, C2A_LoginAccount request, A2C_LoginAccount response, Action reply)
         {
+            Scene scene = session.DomainScene();
+
             #region 校验
 
             //服务器类型校验
-            if (!session.CheckSceneType(SceneType.Account))
+            if (scene.SceneType != SceneType.Account)
+            {
+                Log.Error($"请求的Scene错误,当前Scene为:{scene.SceneType}");
+                response.Error = ErrorCode.ERR_RequestSceneTypeError;
+                reply();
+                session.Disconnect();
                 return;
+            }
 
             session.RemoveComponent<SessionAcceptTimeoutComponent>();
 
@@ -100,15 +108,15 @@ namespace ET
                     }
 
                     //获取当前帐号登陆情况并强制下线
-                    long accountSessionInstanceId = session.DomainScene().GetComponent<AccountSessionsComponent>().Get(account.Id);
+                    long accountSessionInstanceId = scene.GetComponent<AccountSessionsComponent>().Get(account.Id);
                     var otherSession = Game.EventSystem.Get(accountSessionInstanceId) as Session;
                     otherSession?.Send(new A2C_Disconnect() { Error = 0 });
                     otherSession?.Disconnect();
 
                     //发放登陆令牌
                     string token = TimeHelper.ServerNow().ToString() + RandomHelper.RandomNumber(int.MinValue, int.MinValue).ToString();
-                    session.DomainScene().GetComponent<TokenComponent>().Remove(account.Id);
-                    session.DomainScene().GetComponent<TokenComponent>().Add(account.Id, token);
+                    //scene.GetComponent<TokenComponent>().Remove(account.Id);
+                    scene.GetComponent<TokenComponent>().Add(account.Id, token);
 
                     //添加超时检测组件
                     session.AddComponent<AccountCheckOutTimeComponent, long>(account.Id);

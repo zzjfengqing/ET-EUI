@@ -7,11 +7,19 @@ namespace ET
     {
         protected override async ETTask Run(Session session, C2A_CreateRole request, A2C_CreateRole response, Action reply)
         {
+            Scene scene = session.DomainScene();
+
             #region 校验
 
             //服务器类型校验
-            if (!session.CheckSceneType(SceneType.Account))
+            if (scene.SceneType != SceneType.Account)
+            {
+                Log.Error($"请求的Scene错误,当前Scene为:{scene.SceneType}");
+                response.Error = ErrorCode.ERR_RequestSceneTypeError;
+                reply();
+                session.Disconnect();
                 return;
+            }
             //重复请求校验
             if (session.GetComponent<SessionLoginComponent>() != null)
             {
@@ -22,7 +30,7 @@ namespace ET
             }
 
             //令牌校验
-            string token = session.DomainScene().GetComponent<TokenComponent>().Get(request.AccountId); ;
+            string token = scene.GetComponent<TokenComponent>().Get(request.AccountId); ;
 
             if (token is null || token != request.Token)
             {

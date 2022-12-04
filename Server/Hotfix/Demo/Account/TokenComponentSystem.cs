@@ -11,7 +11,7 @@ namespace ET
         public static void Add(this TokenComponent self, long key, string token)
         {
             self.Tokens[key] = token;
-            self.AutoRemoveKey(key, token).Coroutine();
+            self.AutoRemoveKey(key, token);
         }
 
         public static string Get(this TokenComponent self, long key)
@@ -27,7 +27,7 @@ namespace ET
             }
         }
 
-        private static async ETTask AutoRemoveKey(this TokenComponent self, long key, string token)
+        private static async void AutoRemoveKey(this TokenComponent self, long key, string token)
         {
             await TimerComponent.Instance.WaitAsync(10 * TimeHelper.Minute);
             string onlineToken = self.Get(key);

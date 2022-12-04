@@ -12,8 +12,14 @@ namespace ET
         {
             Scene scene = session.DomainScene();
             //服务器校验
-            if (!session.CheckSceneType(SceneType.Account))
+            if (scene.SceneType != SceneType.Account)
+            {
+                Log.Error($"请求的Scene错误,当前Scene为:{scene.SceneType}");
+                response.Error = ErrorCode.ERR_RequestSceneTypeError;
+                reply();
+                session.Disconnect();
                 return;
+            }
 
             //令牌校验
             string token = scene.GetComponent<TokenComponent>().Get(request.AccountId);
