@@ -3,10 +3,18 @@
     [FriendClass(typeof(GateSessionKeyComponent))]
     public static class GateSessionKeyComponentSystem
     {
-        public static void Add(this GateSessionKeyComponent self, long key, string account)
+        public static void Add(this GateSessionKeyComponent self, long key, string account, bool overwrite = true)
         {
-            self.sessionKey.Add(key, account);
-            self.TimeoutRemoveKey(key).Coroutine();
+            if (overwrite)
+            {
+                self.sessionKey[key] = account;
+                self.TimeoutRemoveKey(key).Coroutine();
+            }
+            else if (self.sessionKey.ContainsKey(key))
+            {
+                self.sessionKey.Add(key, account);
+                self.TimeoutRemoveKey(key).Coroutine();
+            }
         }
 
         public static string Get(this GateSessionKeyComponent self, long key)
