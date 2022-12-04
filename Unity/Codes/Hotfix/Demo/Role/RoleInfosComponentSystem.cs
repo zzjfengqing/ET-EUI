@@ -15,7 +15,7 @@ namespace ET
                 roleInfo?.Dispose();
             }
             self.RoleInfos.Clear();
-            self.CurrentRoleId = 0;
+            self.CurRoleId = 0;
         }
     }
 

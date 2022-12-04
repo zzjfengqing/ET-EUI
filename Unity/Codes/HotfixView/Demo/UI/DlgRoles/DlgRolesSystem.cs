@@ -32,7 +32,7 @@ namespace ET
 
         public static void OnRoleItemClickHandler(this DlgRoles self, long roleId)
         {
-            self.ZoneScene().GetComponent<RoleInfosComponent>().CurrentRoleId = roleId;
+            self.ZoneScene().GetComponent<RoleInfosComponent>().CurRoleId = roleId;
             self.View.ELS_RoleListLoopHorizontalScrollRect.RefillCells();
         }
 
@@ -66,7 +66,7 @@ namespace ET
         /// <param name="self"></param>
         public static async void OnDeleteRoleClickHandler(this DlgRoles self)
         {
-            long roleId = self.ZoneScene().GetComponent<RoleInfosComponent>().CurrentRoleId;
+            long roleId = self.ZoneScene().GetComponent<RoleInfosComponent>().CurRoleId;
             if (roleId == 0)
             {
                 Log.Error("请选择需要删除的角色");
@@ -88,8 +88,31 @@ namespace ET
             }
         }
 
-        public static void OnConfirmClickHandler(this DlgRoles self)
+        public static async void OnConfirmClickHandler(this DlgRoles self)
         {
+            bool isSelect = self.ZoneScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
+            if (!isSelect)
+            {
+                Log.Error("请先选择角色");
+                return;
+            }
+
+            try
+            {
+                int errorCode = await LoginHelper.GetRealmKey(self.ZoneScene());
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    Log.Error(errorCode.ToString());
+                    return;
+                }
+
+                self.ZoneScene().GetComponent<UIComponent>().CloseWindow(WindowID.WindowID_Roles);
+                //self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Roles);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+            }
         }
 
         public static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)

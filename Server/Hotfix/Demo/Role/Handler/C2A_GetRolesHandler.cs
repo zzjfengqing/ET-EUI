@@ -45,7 +45,7 @@ namespace ET
                 using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.GetRoles, request.AccountId))
                 {
                     List<RoleInfo> roleInfos = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                        .Query<RoleInfo>(r => r.AccountId == request.AccountId && r.ServerId == request.ServerId && r.Status != ((int)RoleInfoStatus.Freeze));
+                        .Query<RoleInfo>(r => r.AccountId == request.AccountId && r.ServerId == request.ServerId && r.Status == ((int)RoleInfoStatus.Normal));
                     //发送响应
                     foreach (RoleInfo roleInfo in roleInfos)
                     {

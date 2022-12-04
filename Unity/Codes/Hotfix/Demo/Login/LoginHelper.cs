@@ -150,7 +150,7 @@ namespace ET
             return ErrorCode.ERR_Success;
         }
 
-        public static async Task<int> DeleteRole(Scene zoneScene, long roleId)
+        public static async ETTask<int> DeleteRole(Scene zoneScene, long roleId)
         {
             A2C_DelteRole response = null;
             try
@@ -178,6 +178,11 @@ namespace ET
             var roleInfos = zoneScene.GetComponent<RoleInfosComponent>().RoleInfos;
             int index = roleInfos.FindIndex(role => role.Id == response.RoleId);
             roleInfos.RemoveAt(index);
+            return ErrorCode.ERR_Success;
+        }
+
+        public static async ETTask<int> GetRealmKey(Scene scene)
+        {
             return ErrorCode.ERR_Success;
         }
     }

@@ -11,6 +11,6 @@ namespace ET
     public class RoleInfosComponent : Entity, IAwake, IDestroy
     {
         public List<RoleInfo> RoleInfos { get; set; } = new List<RoleInfo>();
-        public long CurrentRoleId { get; set; } = 0;
+        public long CurRoleId { get; set; } = 0;
     }
 }
