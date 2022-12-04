@@ -451,6 +451,12 @@ namespace ET
 		[ProtoMember(90)]
 		public int RpcId { get; set; }
 
+		[ProtoMember(1)]
+		public long AccountId { get; set; }
+
+		[ProtoMember(2)]
+		public int ServerId { get; set; }
+
 	}
 
 	[Message(InnerOpcode.L2G_AddLoginRecord)]

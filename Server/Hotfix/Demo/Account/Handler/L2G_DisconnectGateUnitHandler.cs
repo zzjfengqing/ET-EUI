@@ -7,7 +7,7 @@ namespace ET
         protected override async ETTask Run(Scene scene, L2G_DisconnectGateUnit request, G2L_DisconnectGateUnit response, Action reply)
         {
             var accountId = request.AccountId;
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.GateLoginLock, accountId.GetHashCode()))
+            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.GateLoginLock, accountId))
             {
                 PlayerComponent playerComponent = scene.GetComponent<PlayerComponent>();
                 var player = playerComponent.Get(accountId);

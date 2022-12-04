@@ -75,7 +75,6 @@ namespace ET
                 {
                     player = scene.GetComponent<PlayerComponent>().AddChildWithId<Player, long, long>(request.RoleId, request.AccountId, request.RoleId);
                     player.Status = PlayerStatus.Gate;
-                    scene.GetComponent<PlayerComponent>().Add(player);
                     session.AddComponent<MailBoxComponent, MailboxType>(MailboxType.GateSession);
                 }
                 else
@@ -84,6 +83,7 @@ namespace ET
                 }
                 session.AddComponent<SessionPlayerComponent>().PlayerId = player.Id;
                 session.GetComponent<SessionPlayerComponent>().PlayerInstanceId = player.InstanceId;
+                player.SessionInstanceId = session.InstanceId;
             }
             reply();
         }
