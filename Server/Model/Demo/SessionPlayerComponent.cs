@@ -5,5 +5,6 @@
     {
         public long PlayerId;
         public long PlayerInstanceId;
+        public long AccountId;
     }
 }

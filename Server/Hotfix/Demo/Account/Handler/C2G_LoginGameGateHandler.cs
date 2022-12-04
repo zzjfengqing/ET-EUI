@@ -51,6 +51,8 @@ namespace ET
 
             #endregion 校验
 
+            #region 登陆游戏
+
             long instanceId = session.InstanceId;
             using (session.AddComponent<SessionLoginComponent>())
             using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginGate, request.AccountId))
@@ -62,6 +64,8 @@ namespace ET
                 L2G_AddLoginRecord loginCenterResponse = await MessageHelper.CallActor(loginCenterConfig.InstanceId,
                     new G2L_AddLoginRecord()
                     {
+                        AccountId = request.AccountId,
+                        ServerId = scene.Zone
                     }) as L2G_AddLoginRecord;
                 if (loginCenterResponse?.Error != ErrorCode.ERR_Success)
                 {
@@ -70,7 +74,9 @@ namespace ET
                     session.Disconnect();
                     return;
                 }
-                Player player = scene.GetComponent<PlayerComponent>().Get(request.RoleId);
+
+                //生成玩家对象unit
+                Player player = scene.GetComponent<PlayerComponent>().Get(request.AccountId);
                 if (player == null)
                 {
                     player = scene.GetComponent<PlayerComponent>().AddChildWithId<Player, long, long>(request.RoleId, request.AccountId, request.RoleId);
@@ -79,13 +85,16 @@ namespace ET
                 }
                 else
                 {
-                    //player.RemoveComponent<PlayerOffLineTimeComponent>();
+                    player.RemoveComponent<PlayerOfflineOutTimeComponent>();
                 }
                 session.AddComponent<SessionPlayerComponent>().PlayerId = player.Id;
                 session.GetComponent<SessionPlayerComponent>().PlayerInstanceId = player.InstanceId;
+                session.GetComponent<SessionPlayerComponent>().AccountId = request.AccountId;
                 player.SessionInstanceId = session.InstanceId;
             }
             reply();
+
+            #endregion 登陆游戏
         }
     }
 }

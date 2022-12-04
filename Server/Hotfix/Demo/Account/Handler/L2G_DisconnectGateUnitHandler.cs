@@ -16,9 +16,16 @@ namespace ET
                     reply();
                     return;
                 }
-                playerComponent.Remove(accountId);
                 //Todo:强制玩家下线
-                player.Dispose();
+                scene.GetComponent<GateSessionKeyComponent>().Remove(accountId);
+                Session gateSession = Game.EventSystem.Get(player.SessionInstanceId) as Session;
+                if (gateSession != null && !gateSession.IsDisposed)
+                {
+                    gateSession.Send(new A2C_Disconnect() { Error = ErrorCode.ERR_OtherAccountLogin });
+                    gateSession.Disconnect();
+                }
+                player.SessionInstanceId = 0;
+                player.AddComponent<PlayerOfflineOutTimeComponent>();
             }
             reply();
         }

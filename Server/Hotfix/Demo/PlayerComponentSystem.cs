@@ -13,27 +13,27 @@ namespace ET
         }
 
         [ObjectSystem]
-        public class PlayerComponentDestroySystem: DestroySystem<PlayerComponent>
+        public class PlayerComponentDestroySystem : DestroySystem<PlayerComponent>
         {
             public override void Destroy(PlayerComponent self)
             {
             }
         }
-        
+
         public static void Add(this PlayerComponent self, Player player)
         {
-            self.idPlayers.Add(player.Id, player);
+            self.idPlayers.Add(player.AccountId, player);
         }
 
-        public static Player Get(this PlayerComponent self,long id)
+        public static Player Get(this PlayerComponent self, long accountId)
         {
-            self.idPlayers.TryGetValue(id, out Player gamer);
+            self.idPlayers.TryGetValue(accountId, out Player gamer);
             return gamer;
         }
 
-        public static void Remove(this PlayerComponent self,long id)
+        public static void Remove(this PlayerComponent self, long accountId)
         {
-            self.idPlayers.Remove(id);
+            self.idPlayers.Remove(accountId);
         }
 
         public static Player[] GetAll(this PlayerComponent self)
