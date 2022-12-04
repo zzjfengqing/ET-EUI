@@ -23,7 +23,7 @@ namespace ET
             string token = TimeHelper.ServerNow().ToString() + RandomHelper.RandInt64().ToString();
             //scene.GetComponent<TokenComponent>().Remove(request.AccountId);
             scene.GetComponent<TokenComponent>().AddOrModify(request.AccountId, token);
-            response.RealmKey = token;
+            response.RealmToken = token;
             reply();
             await ETTask.CompletedTask;
         }

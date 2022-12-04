@@ -201,3 +201,20 @@ message R2A_GetRealmKey	//	IActorResponse
 
 	string RealmToken = 1;
 }
+
+//ResponseType G2R_GetLoginGateKey
+message R2G_GetLoginGateKey	//	IActorRequest
+{
+	int32 RpcId = 90;
+
+	int64 AccountId = 1;
+}
+
+message G2R_GetLoginGateKey	//	IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	string GateSessionToken = 1;
+}
