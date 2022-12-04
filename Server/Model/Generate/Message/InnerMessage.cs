@@ -474,4 +474,29 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(M2G_RequestEnterGameStatus))]
+	[Message(InnerOpcode.G2M_RequestEnterGameStatus)]
+	[ProtoContract]
+	public partial class G2M_RequestEnterGameStatus: Object, IActorLocationRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerOpcode.M2G_RequestEnterGameStatus)]
+	[ProtoContract]
+	public partial class M2G_RequestEnterGameStatus: Object, IActorLocationResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
 }

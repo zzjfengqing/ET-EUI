@@ -439,7 +439,7 @@ message G2C_EnterGame	//	IResponse
 	int32 Error = 91;
 	string Message = 92;
 
-	int64 unitId  = 1;
+	int64 UnitId  = 1;
 }
 
 

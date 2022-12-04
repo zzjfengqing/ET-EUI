@@ -870,7 +870,7 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(1)]
-		public long unitId { get; set; }
+		public long UnitId { get; set; }
 
 	}
 
