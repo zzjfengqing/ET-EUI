@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ET
 {
+    [FriendClass(typeof(SessionStatusComponent))]
     [FriendClass(typeof(SessionPlayerComponent))]
     public class C2G_LoginGameGateHandler : AMRpcHandler<C2G_LoginGameGate, G2C_LoginGameGate>
     {
@@ -74,6 +75,14 @@ namespace ET
                     session.Disconnect();
                     return;
                 }
+
+                //添加当前会话状态组件
+                SessionStatusComponent sessionStatusComponent = session.GetComponent<SessionStatusComponent>();
+                if (sessionStatusComponent is null)
+                {
+                    session.AddComponent<SessionStatusComponent>();
+                }
+                sessionStatusComponent.Status = SessionStatus.Normal;
 
                 //生成玩家对象unit
                 Player player = scene.GetComponent<PlayerComponent>().Get(request.AccountId);
