@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ET
 {
@@ -12,6 +13,12 @@ namespace ET
             int n = accountId.GetHashCode() % zoneGates.Count;
 
             return zoneGates[n];
+        }
+
+        public static StartSceneConfig GetRealm(int zone)
+        {
+            StartSceneConfig zoneRealm = StartSceneConfigCategory.Instance.Realms[zone];
+            return zoneRealm;
         }
     }
 }

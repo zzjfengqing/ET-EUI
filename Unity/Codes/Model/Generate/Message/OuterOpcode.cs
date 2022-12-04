@@ -45,5 +45,7 @@ namespace ET
 		 public const ushort A2C_GetRoles = 10042;
 		 public const ushort C2A_DelteRole = 10043;
 		 public const ushort A2C_DelteRole = 10044;
+		 public const ushort C2A_GetRealmKey = 10045;
+		 public const ushort A2C_GetRealmKey = 10046;
 	}
 }

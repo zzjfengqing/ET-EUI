@@ -5,6 +5,7 @@ package ET;
 message C2M_TestRequest // IActorLocationRequest
 {
 	int32 RpcId = 90;
+	
 	string request = 1;
 }
 
@@ -13,6 +14,7 @@ message M2C_TestResponse // IActorLocationResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+
 	string response = 1;
 }
 
@@ -161,6 +163,7 @@ message G2C_Test // IMessage
 message C2M_Reload // IRequest
 {
 	int32 RpcId = 90;
+
 	string Account = 1;
 	string Password = 2;
 }
@@ -176,6 +179,8 @@ message M2C_Reload // IResponse
 message C2R_Login // IRequest
 {
 	int32 RpcId = 90;
+
+
 	string  Account = 1;  // 帐号
 	string  Password = 2;  // 密码
 }
@@ -185,6 +190,7 @@ message R2C_Login // IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+
 	string Address = 1;
 	int64 Key = 2;
 	int64 GateId = 3;
@@ -194,6 +200,7 @@ message R2C_Login // IResponse
 message C2G_LoginGate // IRequest
 {
 	int32 RpcId = 90;
+	
 	int64 Key = 1;  // 帐号
 	int64 GateId = 2;
 }
@@ -203,6 +210,7 @@ message G2C_LoginGate // IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+
 	int64 PlayerId = 1;
 }
 
@@ -215,6 +223,7 @@ message G2C_TestHotfixMessage // IMessage
 message C2M_TestRobotCase // IActorLocationRequest
 {
 	int32 RpcId = 90;
+
 	int32 N = 1;
 }
 
@@ -223,6 +232,7 @@ message M2C_TestRobotCase // IActorLocationResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+
 	int32 N = 1;
 }
 
@@ -243,6 +253,7 @@ message M2C_TransferMap // IActorLocationResponse
 message C2A_LoginAccount // IRequest
 {
 	int32 RpcId = 90;
+
 	string AccountName = 1;
 	string Password = 2;
 }
@@ -252,6 +263,7 @@ message A2C_LoginAccount // IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+
 	string Token = 1;
 	int64 AccountId = 2;
 }
@@ -273,6 +285,7 @@ message NServerInfo
 message C2A_GetServerInfos	//	IRequest
 {
 	int32 RpcId = 90;
+
 	string Token = 1;
 	int64 AccountId = 2;
 }
@@ -282,6 +295,7 @@ message A2C_GetServerInfos	//	IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+
 	repeated NServerInfo NServerInfos = 1;
 }
 
@@ -300,10 +314,11 @@ message NRoleInfo
 message C2A_CreateRole	//	IRequest
 {
 	int32 RpcId = 90;
+
 	string Token = 1;
-	string Name = 2;
-	int32 ServerId = 3;
-	int64 AccountId = 4;
+	int32 ServerId = 2;
+	int64 AccountId = 3;
+	string Name = 4;
 }
 
 message A2C_CreateRole	//	IResponse
@@ -311,6 +326,7 @@ message A2C_CreateRole	//	IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+
 	NRoleInfo NRoleInfo = 1;
 }
 
@@ -318,6 +334,7 @@ message A2C_CreateRole	//	IResponse
 message C2A_GetRoles	//	IRequest
 {
 	int32 RpcId = 90;
+
 	string Token = 1;
 	int32 ServerId = 2;
 	int64 AccountId = 3;
@@ -328,6 +345,7 @@ message A2C_GetRoles	//	IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+	
 	repeated NRoleInfo NRoleInfos = 1;
 }
 
@@ -335,10 +353,11 @@ message A2C_GetRoles	//	IResponse
 message C2A_DelteRole	//	IRequest
 {
 	int32 RpcId = 90;
+
 	string Token = 1;
-	int64 AccountId = 2;
-	int64 RoleId = 3;
-	int32 ServerId = 4;
+	int32 ServerId = 2;
+	int64 AccountId = 3;
+	int64 RoleId = 4;
 }
 
 message A2C_DelteRole	//	IResponse
@@ -346,7 +365,26 @@ message A2C_DelteRole	//	IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+
 	int64 RoleId = 1;
 }
 
+//ResponseType A2C_GetRealmKey
+message C2A_GetRealmKey	//	IRequest
+{
+	int32 RpcId = 90;
 
+	string Token = 1;
+	int32 ServerId = 2;
+	int64 AccountId = 3;
+}
+
+message A2C_GetRealmKey	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	string RealmKey = 1;
+	string RealmAddress = 2;
+}

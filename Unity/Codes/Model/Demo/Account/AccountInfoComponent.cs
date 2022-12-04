@@ -11,5 +11,7 @@ namespace ET
     {
         public string Token { get; set; }
         public long AccountId { get; set; }
+        public string RealmKey { get; set; }
+        public string RealmAddress { get; set; }
     }
 }

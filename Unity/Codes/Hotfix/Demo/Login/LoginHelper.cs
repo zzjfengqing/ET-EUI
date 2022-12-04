@@ -181,8 +181,32 @@ namespace ET
             return ErrorCode.ERR_Success;
         }
 
-        public static async ETTask<int> GetRealmKey(Scene scene)
+        public static async ETTask<int> GetRealmKey(Scene zoneScene)
         {
+            A2C_GetRealmKey response = null;
+            AccountInfoComponent accountInfoComponent = zoneScene.GetComponent<AccountInfoComponent>();
+            try
+            {
+                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_GetRealmKey()
+                {
+                    Token = accountInfoComponent.Token,
+                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
+                    AccountId = accountInfoComponent.AccountId
+                }) as A2C_GetRealmKey;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
+
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error(response.Error.ToString());
+                return response.Error;
+            }
+            accountInfoComponent.RealmKey = response.RealmKey;
+            accountInfoComponent.RealmAddress = response.RealmAddress;
             return ErrorCode.ERR_Success;
         }
     }
