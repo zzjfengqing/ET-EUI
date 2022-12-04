@@ -106,6 +106,12 @@ namespace ET
                     return;
                 }
 
+                errorCode = await LoginHelper.EnterGame(self.ZoneScene());
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    Log.Error(errorCode.ToString());
+                    return;
+                }
                 self.ZoneScene().GetComponent<UIComponent>().CloseWindow(WindowID.WindowID_Roles);
                 //self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Roles);
             }

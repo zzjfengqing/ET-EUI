@@ -408,7 +408,7 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(1)]
-		public string RealmKey { get; set; }
+		public string RealmToken { get; set; }
 
 	}
 

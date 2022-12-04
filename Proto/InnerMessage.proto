@@ -199,5 +199,5 @@ message R2A_GetRealmKey	//	IActorResponse
 	int32 Error = 91;
 	string Message = 92;
 
-	string RealmKey = 1;
+	string RealmToken = 1;
 }

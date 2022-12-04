@@ -59,7 +59,7 @@ namespace ET
                         session.Disconnect();
                         return;
                     }
-                    response.RealmKey = r2aResponse.RealmKey;
+                    response.RealmToken = r2aResponse.RealmToken;
                     response.RealmAddress = realmStartSceneConfig.OuterIPPort.ToString();
                     reply();
                     session.Disconnect();

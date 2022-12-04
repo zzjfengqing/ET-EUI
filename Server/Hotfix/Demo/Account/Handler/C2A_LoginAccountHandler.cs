@@ -116,7 +116,7 @@ namespace ET
                     //发放登陆令牌
                     string token = TimeHelper.ServerNow().ToString() + RandomHelper.RandomNumber(int.MinValue, int.MinValue).ToString();
                     //scene.GetComponent<TokenComponent>().Remove(account.Id);
-                    scene.GetComponent<TokenComponent>().Add(account.Id, token);
+                    scene.GetComponent<TokenComponent>().AddOrModify(account.Id, token);
 
                     //添加超时检测组件
                     session.AddComponent<AccountCheckOutTimeComponent, long>(account.Id);

@@ -765,10 +765,47 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(1)]
-		public string RealmKey { get; set; }
+		public string RealmToken { get; set; }
 
 		[ProtoMember(2)]
 		public string RealmAddress { get; set; }
+
+	}
+
+	[ResponseType(nameof(R2C_LoginRealm))]
+	[Message(OuterOpcode.C2R_LoginRealm)]
+	[ProtoContract]
+	public partial class C2R_LoginRealm: Object, IRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public string RealmToken { get; set; }
+
+		[ProtoMember(2)]
+		public long AccountId { get; set; }
+
+	}
+
+	[Message(OuterOpcode.R2C_LoginRealm)]
+	[ProtoContract]
+	public partial class R2C_LoginRealm: Object, IResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public string GateSessionToken { get; set; }
+
+		[ProtoMember(2)]
+		public string GateAddress { get; set; }
 
 	}
 

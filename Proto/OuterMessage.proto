@@ -5,7 +5,7 @@ package ET;
 message C2M_TestRequest // IActorLocationRequest
 {
 	int32 RpcId = 90;
-	
+
 	string request = 1;
 }
 
@@ -385,6 +385,26 @@ message A2C_GetRealmKey	//	IResponse
 	int32 Error = 91;
 	string Message = 92;
 
-	string RealmKey = 1;
+	string RealmToken = 1;
 	string RealmAddress = 2;
 }
+
+//ResponseType R2C_LoginRealm
+message C2R_LoginRealm	//	IRequest
+{
+	int32 RpcId = 90;
+
+	string RealmToken = 1;
+	int64 AccountId = 2;
+}
+
+message R2C_LoginRealm	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	string GateSessionToken = 1;
+	string GateAddress = 2;
+}
+

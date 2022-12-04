@@ -22,7 +22,7 @@ namespace ET
             //发放登陆令牌
             string token = TimeHelper.ServerNow().ToString() + RandomHelper.RandInt64().ToString();
             //scene.GetComponent<TokenComponent>().Remove(request.AccountId);
-            scene.GetComponent<TokenComponent>().Add(request.AccountId, token);
+            scene.GetComponent<TokenComponent>().AddOrModify(request.AccountId, token);
             response.RealmKey = token;
             reply();
             await ETTask.CompletedTask;
