@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabSource:
-    prefabName: 
+    prefabName: Item_Role
     poolSize: 5
   totalCount: 0
   reverseDirection: 0

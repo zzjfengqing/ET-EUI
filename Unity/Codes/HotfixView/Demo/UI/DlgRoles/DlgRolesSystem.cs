@@ -30,7 +30,17 @@ namespace ET
             self.View.ELS_RoleListLoopHorizontalScrollRect.SetVisible(true, count);
         }
 
-        public static void OnRoleItemClickHandler(this DlgRoles self, long roleId)
+        public static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
+        {
+            var itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
+            var roleInfosComponent = self.ZoneScene().GetComponent<RoleInfosComponent>();
+            var roleInfo = roleInfosComponent.RoleInfos[index];
+            itemRole.EB_RoleSelectImage.color = roleInfo.Id == roleInfosComponent.CurRoleId ? Color.red : Color.cyan;
+            itemRole.EL_RoleText.text = roleInfo.Name;
+            itemRole.EB_RoleSelectButton.AddListener(() => self.OnSelectRoleHandler(roleInfo.Id));
+        }
+
+        public static void OnSelectRoleHandler(this DlgRoles self, long roleId)
         {
             self.ZoneScene().GetComponent<RoleInfosComponent>().CurRoleId = roleId;
             self.View.ELS_RoleListLoopHorizontalScrollRect.RefillCells();
@@ -119,10 +129,6 @@ namespace ET
             {
                 Log.Error(e.ToString());
             }
-        }
-
-        public static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
-        {
         }
     }
 }

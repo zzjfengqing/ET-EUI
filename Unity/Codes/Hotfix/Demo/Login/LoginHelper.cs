@@ -105,7 +105,7 @@ namespace ET
 
             var newRoleInfo = zoneScene.GetComponent<RoleInfosComponent>().AddChild<RoleInfo>();
             newRoleInfo.FromNServerInfo(response.NRoleInfo);
-
+            zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Add(newRoleInfo);
             return ErrorCode.ERR_Success;
         }
 
