@@ -218,3 +218,18 @@ message G2R_GetLoginGateKey	//	IActorResponse
 
 	string GateSessionToken = 1;
 }
+
+//ResponseType L2G_AddLoginRecord
+message G2L_AddLoginRecord	//	IActorRequest
+{
+	int32 RpcId = 90;
+
+}
+
+message L2G_AddLoginRecord	//	IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+}

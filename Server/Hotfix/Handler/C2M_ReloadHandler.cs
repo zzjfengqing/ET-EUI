@@ -8,7 +8,7 @@ namespace ET
 	{
 		protected override async ETTask Run(Session session, C2M_Reload request, M2C_Reload response, Action reply)
 		{
-			//if (request.Account != "panda" && request.Password != "panda")
+			//if (request.AccountId != "panda" && request.Password != "panda")
 			//{
 			//	Log.Error($"error reload account and password: {MongoHelper.ToJson(request)}");
 			//	return;

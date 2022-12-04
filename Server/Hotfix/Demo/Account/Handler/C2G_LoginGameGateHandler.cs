@@ -1,0 +1,91 @@
+﻿using MongoDB.Driver.Core.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ET
+{
+    [FriendClass(typeof(SessionPlayerComponent))]
+    public class C2G_LoginGameGateHandler : AMRpcHandler<C2G_LoginGameGate, G2C_LoginGameGate>
+    {
+        protected override async ETTask Run(Session session, C2G_LoginGameGate request, G2C_LoginGameGate response, Action reply)
+        {
+            Scene scene = session.DomainScene();
+
+            #region 校验
+
+            //服务器类型校验
+            if (scene.SceneType != SceneType.Gate)
+            {
+                Log.Error($"请求的Scene错误,当前Scene为:{scene.SceneType}");
+                response.Error = ErrorCode.ERR_RequestSceneTypeError;
+                reply();
+                session.Disconnect();
+                return;
+            }
+            session.RemoveComponent<SessionAcceptTimeoutComponent>();
+
+            //避免重复请求
+            if (session.GetComponent<SessionLoginComponent>() != null)
+            {
+                response.Error = ErrorCode.ERR_RequestRepeatedly;
+                reply();
+                session.Disconnect();
+                return;
+            }
+
+            //令牌校验
+            string key = scene.GetComponent<GateSessionKeyComponent>().Get(request.AccountId);
+            if (key is null || key != request.Key)
+            {
+                response.Error = ErrorCode.ERR_ConnectGateKeyError;
+                response.Message = "Gate Key 校验失败";
+                reply();
+                session.Disconnect();
+                return;
+            }
+            scene.GetComponent<GateSessionKeyComponent>().Remove(request.AccountId);
+
+            #endregion 校验
+
+            long instanceId = session.InstanceId;
+            using (session.AddComponent<SessionLoginComponent>())
+            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginGate, request.AccountId))
+            {
+                if (instanceId != session.InstanceId)
+                    return;
+                //通知登录中心服 记录本次登陆的服务器zone
+                StartSceneConfig loginCenterConfig = StartSceneConfigCategory.Instance.LoginCenterConfig;
+                L2G_AddLoginRecord loginCenterResponse = await MessageHelper.CallActor(loginCenterConfig.InstanceId,
+                    new G2L_AddLoginRecord()
+                    {
+                    }) as L2G_AddLoginRecord;
+                if (loginCenterResponse?.Error != ErrorCode.ERR_Success)
+                {
+                    response.Error = loginCenterResponse.Error;
+                    reply();
+                    session.Disconnect();
+                    return;
+                }
+                Player player = scene.GetComponent<PlayerComponent>().Get(request.RoleId);
+                if (player == null)
+                {
+                    player = scene.GetComponent<PlayerComponent>().AddChildWithId<Player, long, long>(request.RoleId, request.AccountId, request.RoleId);
+                    player.Status = PlayerStatus.Gate;
+                    scene.GetComponent<PlayerComponent>().Add(player);
+                    session.AddComponent<MailBoxComponent, MailboxType>(MailboxType.GateSession);
+                }
+                else
+                {
+                    //player.RemoveComponent<PlayerOffLineTimeComponent>();
+                }
+                session.AddComponent<SessionPlayerComponent>().PlayerId = player.Id;
+                session.GetComponent<SessionPlayerComponent>().PlayerInstanceId = player.InstanceId;
+            }
+            reply();
+        }
+    }
+}

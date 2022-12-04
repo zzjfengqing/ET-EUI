@@ -20,5 +20,6 @@ namespace ET
 
         public const int Max = 100; // 这个必须最大
         public static int LoginRealm;
+        public static int LoginGate;
     }
 }

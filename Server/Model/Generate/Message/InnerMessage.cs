@@ -443,4 +443,29 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(L2G_AddLoginRecord))]
+	[Message(InnerOpcode.G2L_AddLoginRecord)]
+	[ProtoContract]
+	public partial class G2L_AddLoginRecord: Object, IActorRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerOpcode.L2G_AddLoginRecord)]
+	[ProtoContract]
+	public partial class L2G_AddLoginRecord: Object, IActorResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
 }
