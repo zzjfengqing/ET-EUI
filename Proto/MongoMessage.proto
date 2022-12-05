@@ -19,3 +19,13 @@ message M2M_UnitTransferRequest // IActorRequest
 	Unit Unit = 2;
 	repeated Entity Entitys = 3;
 }
+
+message UnitCache2Other_GetUnit // IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	repeated Entity Entities = 4;
+	repeated string ComponentNames = 5;
+}
