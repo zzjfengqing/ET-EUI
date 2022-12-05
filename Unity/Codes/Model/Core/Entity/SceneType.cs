@@ -12,6 +12,8 @@
         Account,
         LoginCenter,
 
+        UnitCache,
+
         // 客户端Model层
         Client = 30,
 

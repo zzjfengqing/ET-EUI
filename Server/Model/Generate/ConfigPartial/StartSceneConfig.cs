@@ -10,6 +10,7 @@ namespace ET
         public Dictionary<int, StartSceneConfig> Realms = new Dictionary<int, StartSceneConfig>();
 
         public MultiMap<int, StartSceneConfig> ProcessScenes = new MultiMap<int, StartSceneConfig>();
+        public Dictionary<int, StartSceneConfig> UnitCaches = new Dictionary<int, StartSceneConfig>();
 
         public Dictionary<long, Dictionary<string, StartSceneConfig>> ZoneScenesByName = new Dictionary<long, Dictionary<string, StartSceneConfig>>();
 
@@ -26,6 +27,11 @@ namespace ET
         public StartSceneConfig GetBySceneName(int zone, string name)
         {
             return this.ZoneScenesByName[zone][name];
+        }
+
+        public StartSceneConfig GetUnitCacheConfig(long unitId)
+        {
+            return UnitCaches[UnitIdStruct.GetUnitZone(unitId)];
         }
 
         public override void AfterEndInit()
@@ -60,6 +66,10 @@ namespace ET
 
                     case SceneType.Realm:
                         this.Realms.Add(startSceneConfig.Zone, startSceneConfig);
+                        break;
+
+                    case SceneType.UnitCache:
+                        this.UnitCaches[startSceneConfig.Zone] = startSceneConfig;
                         break;
                 }
             }
