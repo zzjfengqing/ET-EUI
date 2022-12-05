@@ -248,3 +248,32 @@ message M2G_RequestEnterGameStatus	//	IActorLocationResponse
 	string Message = 92;
 }
 
+//ResponseType M2G_RequestExitGame
+message G2M_RequestExitGame	//	IActorLocationRequest
+{
+	int32 RpcId = 90;
+}
+
+message M2G_RequestExitGame	//	IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//ResponseType M2G_RequestExitGame
+message G2L_RemoveLoginRecord	//	IActorRequest
+{
+	int32 RpcId = 90;
+
+	int64 AccountId = 1;
+	int32 ServerId = 2;
+}
+
+message L2G_RemoveLoginRecord	//	IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+

@@ -175,44 +175,6 @@ message M2C_Reload // IResponse
 	string Message = 92;
 }
 
-//ResponseType R2C_Login
-message C2R_Login // IRequest
-{
-	int32 RpcId = 90;
-
-
-	string  Account = 1;  // 帐号
-	string  Password = 2;  // 密码
-}
-
-message R2C_Login // IResponse
-{
-	int32 RpcId = 90;
-	int32 Error = 91;
-	string Message = 92;
-
-	string Address = 1;
-	int64 Key = 2;
-	int64 GateId = 3;
-}
-
-//ResponseType G2C_LoginGate
-message C2G_LoginGate // IRequest
-{
-	int32 RpcId = 90;
-	
-	int64 Key = 1;  // 帐号
-	int64 GateId = 2;
-}
-
-message G2C_LoginGate // IResponse
-{
-	int32 RpcId = 90;
-	int32 Error = 91;
-	string Message = 92;
-
-	int64 PlayerId = 1;
-}
 
 message G2C_TestHotfixMessage // IMessage
 {
@@ -310,6 +272,25 @@ message NRoleInfo
 	int64 CreateTime = 7;
 }
 
+//ResponseType A2C_GetRoles
+message C2A_GetRoles	//	IRequest
+{
+	int32 RpcId = 90;
+
+	string Token = 1;
+	int32 ServerId = 2;
+	int64 AccountId = 3;
+}
+
+message A2C_GetRoles	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+	
+	repeated NRoleInfo NRoleInfos = 1;
+}
+
 //ResponseType A2C_CreateRole
 message C2A_CreateRole	//	IRequest
 {
@@ -328,25 +309,6 @@ message A2C_CreateRole	//	IResponse
 	string Message = 92;
 
 	NRoleInfo NRoleInfo = 1;
-}
-
-//ResponseType A2C_GetRoles
-message C2A_GetRoles	//	IRequest
-{
-	int32 RpcId = 90;
-
-	string Token = 1;
-	int32 ServerId = 2;
-	int64 AccountId = 3;
-}
-
-message A2C_GetRoles	//	IResponse
-{
-	int32 RpcId = 90;
-	int32 Error = 91;
-	string Message = 92;
-	
-	repeated NRoleInfo NRoleInfos = 1;
 }
 
 //ResponseType A2C_DelteRole
