@@ -8,19 +8,19 @@ namespace ET
 {
     public static class DisconnectHelper
     {
-        public static async void Disconnect(this Session self)
+        public static async void Disconnect(this Session session)
         {
-            if (self == null || self.IsDisposed)
+            if (session == null || session.IsDisposed)
             {
                 return;
             }
-            var instanceId = self.InstanceId;
+            var instanceId = session.InstanceId;
 
             await TimerComponent.Instance.WaitAsync(1000);
 
-            if (instanceId != self.InstanceId)
+            if (instanceId != session.InstanceId)
                 return;
-            self.Dispose();
+            session.Dispose();
         }
 
         internal static async ETTask KickPlayer(Player player, bool isException = false)
@@ -44,6 +44,16 @@ namespace ET
 
                         case PlayerStatus.Game:
                             //TODO: 通知游戏逻辑服下线Unit角色逻辑,并将数据存入数据库
+                            var mapResponse = await MessageHelper.CallLocationActor(player.UnitId,
+                                new G2M_RequestExitGame()) as M2G_RequestExitGame;
+                            //通知移除账号角色登录信息
+                            long loginCenterConfigSceneId = StartSceneConfigCategory.Instance.LoginCenterConfig.InstanceId;
+                            var loginCenterResponse = await MessageHelper.CallActor(loginCenterConfigSceneId,
+                                new G2L_RemoveLoginRecord()
+                                {
+                                    AccountId = instanceId,
+                                    ServerId = player.DomainZone()
+                                }) as L2G_RemoveLoginRecord;
                             break;
                     }
                 }

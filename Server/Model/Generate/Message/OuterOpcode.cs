@@ -35,10 +35,10 @@ namespace ET
 		 public const ushort C2A_GetServerInfos = 10032;
 		 public const ushort A2C_GetServerInfos = 10033;
 		 public const ushort NRoleInfo = 10034;
-		 public const ushort C2A_CreateRole = 10035;
-		 public const ushort A2C_CreateRole = 10036;
-		 public const ushort C2A_GetRoles = 10037;
-		 public const ushort A2C_GetRoles = 10038;
+		 public const ushort C2A_GetRoles = 10035;
+		 public const ushort A2C_GetRoles = 10036;
+		 public const ushort C2A_CreateRole = 10037;
+		 public const ushort A2C_CreateRole = 10038;
 		 public const ushort C2A_DelteRole = 10039;
 		 public const ushort A2C_DelteRole = 10040;
 		 public const ushort C2A_GetRealmKey = 10041;

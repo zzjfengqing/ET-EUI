@@ -110,7 +110,7 @@ namespace ET
                     GateMapComponent gateMapComponent = player.AddComponent<GateMapComponent>();
                     gateMapComponent.Scene = await SceneFactory.Create(gateMapComponent, "GateMap", SceneType.Map);
 
-                    //创建游戏对象
+                    //创建游戏对象(unit.Id = player.Id = roleId)
                     Unit unit = UnitFactory.Create(gateMapComponent.Scene, player.Id, UnitType.Player);
                     unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
                     long unitId = unit.Id;

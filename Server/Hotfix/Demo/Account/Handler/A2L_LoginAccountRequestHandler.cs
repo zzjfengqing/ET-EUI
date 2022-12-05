@@ -25,7 +25,11 @@ namespace ET
                 //当前帐号已登录,需强制下线
                 int zone = loginInfoRecordComponent.Get(accountId);
                 StartSceneConfig gateConfig = RealmGateAddressHelper.GetGate(zone, accountId);
-                var g2L_DisconnectGateUnit = await MessageHelper.CallActor(gateConfig.InstanceId, new L2G_DisconnectGateUnit() { AccountId = accountId }) as G2L_DisconnectGateUnit;
+                var g2L_DisconnectGateUnit = await MessageHelper.CallActor(gateConfig.InstanceId,
+                    new L2G_DisconnectGateUnit()
+                    {
+                        AccountId = accountId
+                    }) as G2L_DisconnectGateUnit;
 
                 response.Error = g2L_DisconnectGateUnit.Error;
                 reply();

@@ -27,7 +27,6 @@ namespace ET
                 session.Disconnect();
                 return;
             }
-            session.RemoveComponent<SessionAcceptTimeoutComponent>();
 
             //避免重复请求
             if (session.GetComponent<SessionLoginComponent>() != null)
@@ -53,6 +52,8 @@ namespace ET
             #endregion 校验
 
             #region 登陆游戏
+
+            session.RemoveComponent<SessionAcceptTimeoutComponent>();
 
             long instanceId = session.InstanceId;
             using (session.AddComponent<SessionLoginComponent>())
@@ -85,6 +86,7 @@ namespace ET
                 Player player = scene.GetComponent<PlayerComponent>().Get(request.AccountId);
                 if (player == null)
                 {
+                    // [player.Id] = [player.UnitId] = [RoleId]
                     player = scene.GetComponent<PlayerComponent>().AddChildWithId<Player, long, long>(request.RoleId, request.AccountId, request.RoleId);
                     player.Status = PlayerStatus.Gate;
                     session.AddComponent<MailBoxComponent, MailboxType>(MailboxType.GateSession);

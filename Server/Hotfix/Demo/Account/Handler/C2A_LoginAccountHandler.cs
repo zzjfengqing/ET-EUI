@@ -116,14 +116,16 @@ namespace ET
                     var otherSession = Game.EventSystem.Get(accountSessionInstanceId) as Session;
                     otherSession?.Send(new A2C_Disconnect() { Error = 0 });
                     otherSession?.Disconnect();
+                    //账号服务器添加记录
+                    scene.GetComponent<AccountSessionsComponent>().Add(account.Id, session.InstanceId);
+
+                    //添加超时检测组件
+                    session.AddComponent<AccountCheckOutTimeComponent, long>(account.Id);
 
                     //发放登陆令牌
                     string token = TimeHelper.ServerNow().ToString() + RandomHelper.RandomNumber(int.MinValue, int.MinValue).ToString();
                     //scene.GetComponent<TokenComponent>().Remove(account.Id);
                     scene.GetComponent<TokenComponent>().AddOrModify(account.Id, token);
-
-                    //添加超时检测组件
-                    session.AddComponent<AccountCheckOutTimeComponent, long>(account.Id);
 
                     response.AccountId = account.Id;
                     response.Token = token;
