@@ -109,6 +109,7 @@ namespace ET
 
             try
             {
+                //申请网关负载均衡服务器的token
                 int errorCode = await LoginHelper.GetRealmKey(self.ZoneScene());
                 if (errorCode != ErrorCode.ERR_Success)
                 {
@@ -116,6 +117,7 @@ namespace ET
                     return;
                 }
 
+                //连接网关负载均衡服务器, 请求进入游戏
                 errorCode = await LoginHelper.EnterGame(self.ZoneScene());
                 if (errorCode != ErrorCode.ERR_Success)
                 {

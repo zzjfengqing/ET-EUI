@@ -524,7 +524,7 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(M2G_RequestExitGame))]
+	[ResponseType(nameof(L2G_RemoveLoginRecord))]
 	[Message(InnerOpcode.G2L_RemoveLoginRecord)]
 	[ProtoContract]
 	public partial class G2L_RemoveLoginRecord: Object, IActorRequest

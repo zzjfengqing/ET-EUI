@@ -5,11 +5,12 @@
     {
         public class SessionPlayerComponentDestroySystem : DestroySystem<SessionPlayerComponent>
         {
-            public override void Destroy(SessionPlayerComponent self)
+            public override async void Destroy(SessionPlayerComponent self)
             {
-                // 发送断线消息
-                ActorLocationSenderComponent.Instance.Send(self.PlayerId, new G2M_SessionDisconnect());
-                self.Domain.GetComponent<PlayerComponent>()?.Remove(self.AccountId);
+                await DisconnectHelper.KickPlayer(self.GetMyPlayer());
+                //// 发送断线消息
+                //ActorLocationSenderComponent.Instance.Send(self.PlayerId, new G2M_SessionDisconnect());
+                //self.Domain.GetComponent<PlayerComponent>()?.Remove(self.AccountId);
             }
         }
 

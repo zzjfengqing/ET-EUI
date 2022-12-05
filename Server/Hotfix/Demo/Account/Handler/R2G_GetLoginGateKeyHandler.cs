@@ -20,14 +20,20 @@ namespace ET
                 reply();
                 return;
             }
+
+            #endregion 校验
+
+            #region 发放本Gate登陆令牌
+
             string key = RandomHelper.RandInt64().ToString() + TimeHelper.ServerNow().ToString();
             //scene.GetComponent<GateSessionKeyComponent>().Remove(request.AccountId);
             scene.GetComponent<GateSessionKeyComponent>().Add(request.AccountId, key);
             response.GateSessionToken = key;
             reply();
-            await ETTask.CompletedTask;
 
-            #endregion 校验
+            #endregion 发放本Gate登陆令牌
+
+            await ETTask.CompletedTask;
         }
     }
 }

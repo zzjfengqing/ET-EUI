@@ -178,6 +178,11 @@ namespace ET
             return ErrorCode.ERR_Success;
         }
 
+        /// <summary>
+        /// 向 Account账号服务器 申请网关负载均衡服务器 的token
+        /// </summary>
+        /// <param name="zoneScene"></param>
+        /// <returns></returns>
         public static async ETTask<int> GetRealmKey(Scene zoneScene)
         {
             A2C_GetRealmKey response = null;
@@ -207,6 +212,11 @@ namespace ET
             return ErrorCode.ERR_Success;
         }
 
+        /// <summary>
+        /// 连接网关负载均衡服务器, 请求进入游戏
+        /// </summary>
+        /// <param name="zoneScene"></param>
+        /// <returns></returns>
         public static async Task<int> EnterGame(Scene zoneScene)
         {
             string realmAddress = zoneScene.GetComponent<AccountInfoComponent>().RealmAddress;

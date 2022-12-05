@@ -261,7 +261,7 @@ message M2G_RequestExitGame	//	IActorLocationResponse
 	string Message = 92;
 }
 
-//ResponseType M2G_RequestExitGame
+//ResponseType L2G_RemoveLoginRecord
 message G2L_RemoveLoginRecord	//	IActorRequest
 {
 	int32 RpcId = 90;
