@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace ET
 {
-    public class MonoPool: IDisposable
+    public class MonoPool : IDisposable
     {
         private readonly Dictionary<Type, Queue<object>> pool = new Dictionary<Type, Queue<object>>();
-        
+
         public static MonoPool Instance = new MonoPool();
-        
+
         private MonoPool()
         {
         }

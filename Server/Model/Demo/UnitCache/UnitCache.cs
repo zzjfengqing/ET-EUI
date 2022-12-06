@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ET
 {
@@ -12,7 +8,12 @@ namespace ET
 
     public class UnitCache : Entity, IAwake, IDestroy
     {
-        public string Key;
-        public Dictionary<long, Entity> CacheCOmponents = new Dictionary<long, Entity>();
+        /// <summary>
+        /// <para> Key: UnitId </para>
+        /// <para> Value: Entity </para>
+        /// </summary>
+        public Dictionary<long, Entity> CacheComponents = new Dictionary<long, Entity>();
+
+        public string EntityName;
     }
 }

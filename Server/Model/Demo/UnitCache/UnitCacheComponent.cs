@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ET
 {
     [ComponentOf(typeof(Scene))]
+    [ChildType(typeof(UnitCache))]
     public class UnitCacheComponent : Entity, IAwake
     {
-        public Dictionary<string, UnitCache> UnitCache = new Dictionary<string, UnitCache>();
-        public List<string> UnitCacheKeys = new List<string>();
+        public List<string> UnitCacheNames = new List<string>();
+        public Dictionary<string, UnitCache> UnitCaches = new Dictionary<string, UnitCache>();
     }
 }
