@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "febff1c658fa9d76726f3aa25f26ec6d35c1e2e6"
+      "hash": "410bb9b542664e9288588b5c23d3300e01e5936e"
     },
     "com.cysharp.memorypack": {
       "version": "https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/Plugins/MemoryPack",
@@ -31,8 +31,17 @@
         "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
       }
     },
+    "com.unity.ai.navigation": {
+      "version": "1.1.5",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.burst": {
-      "version": "1.8.4",
+      "version": "1.8.11",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -287,17 +296,6 @@
     "com.unity.modules.uielements": {
       "version": "1.0.0",
       "depth": 0,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.modules.ui": "1.0.0",
-        "com.unity.modules.imgui": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.modules.uielementsnative": "1.0.0"
-      }
-    },
-    "com.unity.modules.uielementsnative": {
-      "version": "1.0.0",
-      "depth": 1,
       "source": "builtin",
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
