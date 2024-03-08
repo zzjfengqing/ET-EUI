@@ -40,7 +40,7 @@
 
         public const string ETClientNameSpace = "ET.Client";
 
-        public const string ClientDirInServer = @"Unity\Assets\Scripts\Codes\Hotfix\Client\";
+        public const string ClientDirInServer = @"Unity\Assets\Scripts\Hotfix\Client\";
 
         public const string EntitySystemAttribute = "EntitySystem";
         public const string EntitySystemAttributeMetaName = "ET.EntitySystemAttribute";
@@ -86,6 +86,16 @@
         public const string LSUpdateMethod = "LSUpdate";
 
         public const string ETLog = "ET.Log";
+
+        public const string IMessageInterface = "ET.IMessage";
+
+        public const string EntityRefType = "EntityRef";
+        
+        public const string EntityWeakRefType = "EntityWeakRef";
+
+        public const string DisableNewAttribute = "ET.DisableNewAttribute";
+
+        public const string EnableClassAttribute = "ET.EnableClassAttribute";
     }
 }
 

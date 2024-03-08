@@ -96,7 +96,7 @@ namespace ET
             self.SendInner(actorId, (MessageObject)message);
         }
 
-        private static void SendInner(this ProcessInnerSender self, ActorId actorId, MessageObject message)
+        private static bool SendInner(this ProcessInnerSender self, ActorId actorId, MessageObject message)
         {
             Fiber fiber = self.Fiber();
             
@@ -109,13 +109,13 @@ namespace ET
             if (actorId.Fiber == fiber.Id)
             {
                 self.HandleMessage(fiber, new MessageInfo() {ActorId = actorId, MessageObject = message});
-                return;
+                return true;
             }
             
-            MessageQueue.Instance.Send(fiber.Address, actorId, message);
+            return MessageQueue.Instance.Send(fiber.Address, actorId, message);
         }
 
-        public static int GetRpcId(this ProcessInnerSender self)
+        private static int GetRpcId(this ProcessInnerSender self)
         {
             return ++self.RpcId;
         }
@@ -134,34 +134,23 @@ namespace ET
             {
                 throw new Exception($"actor id is 0: {request}");
             }
-
-            return await self.Call(actorId, rpcId, request, needException);
-        }
-        
-        public static async ETTask<IResponse> Call(
-                this ProcessInnerSender self,
-                ActorId actorId,
-                int rpcId,
-                IRequest iRequest,
-                bool needException = true
-        )
-        {
-            if (actorId == default)
-            {
-                throw new Exception($"actor id is 0: {iRequest}");
-            }
+            
             Fiber fiber = self.Fiber();
             if (fiber.Process != actorId.Process)
             {
                 throw new Exception($"actor inner process diff: {actorId.Process} {fiber.Process}");
             }
 
-            Type requestType = iRequest.GetType();
+            Type requestType = request.GetType();
             MessageSenderStruct messageSenderStruct = new(actorId, requestType, needException);
             self.requestCallback.Add(rpcId, messageSenderStruct);
-            
-            self.SendInner(actorId, (MessageObject)iRequest);
 
+            IResponse response;
+            if (!self.SendInner(actorId, (MessageObject)request))  // 纤程不存在
+            {
+                response = MessageHelper.CreateResponse(requestType, rpcId, ErrorCore.ERR_NotFoundActor);
+                return response;
+            }
             
             async ETTask Timeout()
             {
@@ -187,7 +176,7 @@ namespace ET
             
             long beginTime = TimeInfo.Instance.ServerFrameTime();
 
-            IResponse response = await messageSenderStruct.Wait();
+            response = await messageSenderStruct.Wait();
             
             long endTime = TimeInfo.Instance.ServerFrameTime();
 

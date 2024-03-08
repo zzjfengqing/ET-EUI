@@ -158,7 +158,7 @@ namespace ET.Client
         }
         
 
-        public static void RemoveUIScrollItems<K,T>(this K self, ref Dictionary<int, T> dictionary) where K : Entity,IUILogic  where T : Entity,IUIScrollItem
+        public static void RemoveUIScrollItems<K,T>(this K self, ref Dictionary<int, T> dictionary) where K : Entity,IUILogic  where T : Entity,IAwake,IUIScrollItem<T>
         {
             if (dictionary == null)
             {

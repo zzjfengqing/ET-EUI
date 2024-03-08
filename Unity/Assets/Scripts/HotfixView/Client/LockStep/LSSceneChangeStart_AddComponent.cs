@@ -13,14 +13,12 @@ namespace ET.Client
             
             // 创建loading界面
             
-            room.GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_LSRoom);
-
             
+            // 创建房间UI
+            //await UIHelper.Create(args.Room, UIType.UILSRoom, UILayer.Low);
             
             // 加载场景资源
             await resourcesLoaderComponent.LoadSceneAsync($"Assets/Bundles/Scenes/{room.Name}.unity", LoadSceneMode.Single);
-            
-           
         }
     }
 }

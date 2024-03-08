@@ -6,9 +6,29 @@
 # 公司黑名单：  
 ## 成都三猩元宇宙公司，拖欠员工工资，拖欠本人咨询费用  
 ---
-  
 
-# ET8 发布! 仙女！  
+---
+# 商业项目（已出现多个一个人开发的MMO上线，足以证明ET的强大）：    
+1. [千古风流](https://www.qiangu.com/) 大型mmo，团队100人2年开发完成  
+2. [神选誓约](https://www.taptap.cn/app/248095)  
+3. [危境](https://www.taptap.cn/app/271100) 一个技术一个策划开发的mmo，抖音可以搜索危境看直播  
+4. 魔力回忆 许木大厨一个人开发的魔力宝贝  
+5. [新生](https://store.steampowered.com/app/1704940/_/) steam上，一个人开发的科幻mmo  
+6. [怒斩屠龙之乾坤剑指](http://wan.rxqu.com/mobile/downfile/index/gid/9.html) 传奇项目  
+7. [魔法点点2](https://www.taptap.com/app/227804) 一个人开发  
+8. [养不大](https://www.taptap.com/app/71064)  
+9. 天天躲猫猫2（ios2019春节下载排行19）  
+10. [牛虎棋牌](https://gitee.com/ECPS_admin/PlanB)  
+11. [五星麻将](https://github.com/wufanjoin/fivestar)  
+12. [代号肉鸽：无限](https://www.taptap.cn/app/247225) 一个人开发  
+13. [卡车人生](https://www.kxdw.com/android/130033.html)  
+14. [掌门太闲](https://www.taptap.cn/app/361952) 一个人开发  
+---
+
+# ET8.1 发布!  
+8.1跟8区别不大，代码结构完全没有变化，主要是编译方式的修改，可以在Unity中按F6进行编译，也可以在IDE中进行编译，运行中reload可以先按F6编译，再按F7进行热重载   
+
+# ET8 发布! 貂蝉  
 1. 多线程多进程架构,架构更加灵活强大，多线程设计详细内容请看多线程设计课程  
 2. 抽象出纤程(Fiber)的概念，类似erlang的进程，非常轻松的创建多个纤程，利用多核，仍然是单线程开发的体验  
 3. 纤程调度: 主线程，线程池，每个纤程一个线程，3种调度方式  
@@ -27,7 +47,7 @@
 16. 集成了sj的非托管容器库，性能爆炸  
 
 
-# 用ET的17个理由  
+# 用ET的18个理由  
 1. 多进程多线程Actor架构，客户端跟服务端都可以轻松创建纤程(fiber)利用多核，比如客户端网络一个纤程，寻路一个纤程，帧同步逻辑层一个纤程，表现层一个纤程  
 2. async await协程同步代码编写，避免回调地狱  
 3. 0GC消耗，超强的MemoryPack序列化, 超强的网络层性能  
@@ -57,11 +77,11 @@
 
 # [ET论坛](https://et-framework.cn)  
 
-# [ET商店](https://github.com/egametang/ET/tree/master/Store)  
+# [ET商店](./Store)  
 
-# [ET6.0视频教程上线](https://edu.uwa4d.com/course-intro/1/375)   
+# [ET视频教程](https://community.uwa4d.com/search?keyword=ET&scope=1)   
 
-# [运行指南](https://github.com/egametang/ET/blob/master/Book/1.1%E8%BF%90%E8%A1%8C%E6%8C%87%E5%8D%97.md)  
+# [运行指南](./Book/1.1运行指南.md)  
 
 # [分析器说明](https://www.yuque.com/u28961999/yms0nt/)
 
@@ -199,16 +219,6 @@ ET框架是一个强大灵活的分布式服务端架构，完全可以满足绝
 [框架demo介绍](http://www.jianshu.com/p/f2ea0d26c7c1)  
 [linux部署](http://gad.qq.com/article/detail/35973)  
 
-商业项目:  
-1. [千古风流](https://www.qiangu.com/)  
-2. [神选誓约](https://www.taptap.cn/app/248095)  
-3. [魔法点点2](https://www.taptap.com/app/227804)  
-4. [养不大](https://www.taptap.com/app/71064)  
-5. 天天躲猫猫2（ios2019春节下载排行19）  
-6. [牛虎棋牌](https://gitee.com/ECPS_admin/PlanB)  
-7. [五星麻将](https://github.com/wufanjoin/fivestar)  
-8. [神选誓约](https://www.taptap.cn/app/248095)  
-9. [代号肉鸽：无限](https://www.taptap.cn/app/247225)  
 
 群友demo：  
 1. [斗地主（客户端服务端）](https://github.com/Viagi/LandlordsCore)  
@@ -240,7 +250,5 @@ __讨论QQ群 : 474643097__
 [xasset](https://github.com/xasset/xasset) 致力于为 Unity 项目提供了一套 精简稳健 的资源管理环境  
 [QFramework](https://github.com/liangxiegame/QFramework) Your first K.I.S.S Unity3d Framework  
 [ET UI框架](https://github.com/zzjfengqing/ET-EUI) 字母哥实现的UI框架，ET风格，各种事件分发  
-[ETCsharpToXLua](https://github.com/zzjfengqing/ETCsharpToXLua) 字母哥使用csharp.lua实现的ET客户端热更新  
-[et-6-with-ilruntime](https://www.lfzxb.top/et-6-with-ilruntime) 烟雨使用ILRuntime实现的ET客户端热更新  
 [Luban](https://github.com/focus-creative-games/luban) 适用于大中型项目的游戏配置解决方案  
 [ET-YIUI](https://github.com/LiShengYang-yiyi/YIUI/tree/YIUI-ET7.2) ETUI框架 

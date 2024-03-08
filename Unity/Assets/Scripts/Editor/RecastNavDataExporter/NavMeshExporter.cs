@@ -71,7 +71,7 @@ namespace ETEditor
         private static string outputServerFolder = "../Config/RecastNavData/ExportedObj/";
 
         #region 菜单主函数
-        [MenuItem("ET/NavMesh/ExportSceneObj")]
+        [MenuItem("ET/NavMesh/ExportSceneObj", false, ETMenuItemPriority.NavMesh)]
         public static void ExportScene()
         {
             var triangulation = UnityEngine.AI.NavMesh.CalculateTriangulation();
@@ -664,9 +664,14 @@ namespace ETEditor
                     ObjMaterial objMaterial = new ObjMaterial();
                     objMaterial.name = nameMat;
                     if (mainTexture)
+                    {
                         objMaterial.textureName = AssetDatabase.GetAssetPath(mainTexture);
+                    }
                     else
+                    {
                         objMaterial.textureName = null;
+                    }
+
                     materialList.Add(objMaterial.name, objMaterial);
                 }
                 catch (ArgumentException)

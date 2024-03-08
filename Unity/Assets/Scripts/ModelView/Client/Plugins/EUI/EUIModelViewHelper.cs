@@ -1,14 +1,23 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ET.Client
 {
     public static class EUIModelViewHelper
     {
-        public static void AddUIScrollItems<K,T>(this K self, ref Dictionary<int, T> dictionary, int count) where K : Entity,IUILogic  where T : Entity,IAwake,IUIScrollItem
+
+        public static T BindTrans<T>(this EntityRef<T> self,Transform transform) where T : Entity,IAwake,IUIScrollItem<T>
+        {
+            T value = self;
+            return value.BindTrans(transform);
+        }
+        
+        
+        public static void AddUIScrollItems<K,T>(this K self, ref Dictionary<int, EntityRef<T>> dictionary, int count) where K : Entity,IUILogic  where T : Entity,IAwake,IUIScrollItem<T>
         {
             if (dictionary == null)
             {
-                dictionary = new Dictionary<int, T>();
+                dictionary = new Dictionary<int, EntityRef<T>>();
             }
             
             if (count <= 0)
@@ -18,7 +27,8 @@ namespace ET.Client
             
             foreach (var item in dictionary)
             {
-                item.Value.Dispose();
+                T value = item.Value;
+                value?.Dispose();
             }
             dictionary.Clear();
             for (int i = 0; i <= count; i++)

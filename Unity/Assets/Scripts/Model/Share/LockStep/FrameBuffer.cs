@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ET
 {
-    public class FrameBuffer
+    public class FrameBuffer: Object
     {
         public int MaxFrame { get; private set; }
         private readonly List<OneFrameInputs> frameInputs;
@@ -21,7 +21,7 @@ namespace ET
             for (int i = 0; i < this.snapshots.Capacity; ++i)
             {
                 this.hashs.Add(0);
-                this.frameInputs.Add(new OneFrameInputs());
+                this.frameInputs.Add(OneFrameInputs.Create());
                 MemoryBuffer memoryBuffer = new(10240);
                 memoryBuffer.SetLength(0);
                 memoryBuffer.Seek(0, SeekOrigin.Begin);

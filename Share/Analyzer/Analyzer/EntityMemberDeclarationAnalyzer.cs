@@ -13,7 +13,7 @@ namespace ET.Analyzer
     public class EntityMemberDeclarationAnalyzer: DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>ImmutableArray.Create(EntityDelegateDeclarationAnalyzerRule.Rule,
-            EntityFieldDeclarationInEntityAnalyzerRule.Rule, LSEntityFloatMemberAnalyzer.Rule);
+            EntityFieldDeclarationInEntityAnalyzerRule.Rule, LSEntityFloatMemberAnalyzer.Rule, EntityComponentChildAnalyzerRule.Rule);
         
         public override void Initialize(AnalysisContext context)
         {
@@ -25,19 +25,6 @@ namespace ET.Analyzer
             context.EnableConcurrentExecution();
             context.RegisterCompilationStartAction((analysisContext =>
             {
-                if (analysisContext.Compilation.AssemblyName==AnalyzeAssembly.UnityCodes)
-                {
-                    analysisContext.RegisterSemanticModelAction((modelAnalysisContext =>
-                    {
-                        if (AnalyzerHelper.IsSemanticModelNeedAnalyze(modelAnalysisContext.SemanticModel,UnityCodesPath.AllModel))
-                        {
-                            AnalyzeSemanticModel(modelAnalysisContext);
-                        }
-                        
-                    } ));
-                    return;
-                }
-                
                 if (AnalyzerHelper.IsAssemblyNeedAnalyze(analysisContext.Compilation.AssemblyName,AnalyzeAssembly.AllModel))
                 {
                     analysisContext.RegisterSemanticModelAction((this.AnalyzeSemanticModel));
@@ -66,11 +53,13 @@ namespace ET.Analyzer
             {
                 AnalyzeDelegateMember(context, namedTypeSymbol);
                 AnalyzeEntityMember(context, namedTypeSymbol);
+                AnalyzeComponentChildAttr(context, namedTypeSymbol);
             }else if (baseType == Definition.LSEntityType)
             {
                 AnalyzeDelegateMember(context, namedTypeSymbol);
                 AnalyzeEntityMember(context, namedTypeSymbol);
                 AnalyzeFloatMemberInLSEntity(context,namedTypeSymbol);
+                AnalyzeComponentChildAttr(context, namedTypeSymbol);
             }
         }
 
@@ -125,7 +114,27 @@ namespace ET.Analyzer
                 {
                     continue;
                 }
-                if (fieldSymbol.Type.ToString()is Definition.EntityType or Definition.LSEntityType || fieldSymbol.Type.BaseType?.ToString()is Definition.EntityType or Definition.LSEntityType)
+
+                if (fieldSymbol.Type is not INamedTypeSymbol namedTypeSymbol2)
+                {
+                    continue;
+                }
+
+                // 字段类型是否是实体类
+                if (namedTypeSymbol2.IsETEntity())
+                {
+                    var syntaxReference = fieldSymbol.DeclaringSyntaxReferences.FirstOrDefault();
+                    if (syntaxReference==null)
+                    {
+                        continue;
+                    }
+                    Diagnostic diagnostic = Diagnostic.Create(EntityFieldDeclarationInEntityAnalyzerRule.Rule, syntaxReference.GetSyntax().GetLocation(),namedTypeSymbol.Name,fieldSymbol.Name);
+                    context.ReportDiagnostic(diagnostic);
+                    continue;
+                }
+
+                // 字段类型是否是含实体类参数的泛型类
+                if (namedTypeSymbol2.IsGenericType&&GenericTypeHasEntityTypeArgs(namedTypeSymbol2))
                 {
                     var syntaxReference = fieldSymbol.DeclaringSyntaxReferences.FirstOrDefault();
                     if (syntaxReference==null)
@@ -214,6 +223,60 @@ namespace ET.Analyzer
                 else
                 {
                     if (namedTypeSymbol2.SpecialType is SpecialType.System_Single or SpecialType.System_Double)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 实体类是否同时标记为component child
+        /// </summary>
+        private void AnalyzeComponentChildAttr(SemanticModelAnalysisContext context, INamedTypeSymbol namedTypeSymbol)
+        {
+            bool hasComponentOf = namedTypeSymbol.HasAttribute(Definition.ComponentOfAttribute);
+            bool hasChildOf = namedTypeSymbol.HasAttribute(Definition.ChildOfAttribute);
+            if (hasComponentOf && hasChildOf)
+            {
+                var syntax = namedTypeSymbol.DeclaringSyntaxReferences.First().GetSyntax() as ClassDeclarationSyntax;
+                Diagnostic diagnostic = Diagnostic.Create(EntityComponentChildAnalyzerRule.Rule, syntax?.Identifier.GetLocation(),namedTypeSymbol.Name);
+                context.ReportDiagnostic(diagnostic);
+            }
+        }
+
+
+        /// <summary>
+        /// 泛型类 是否含有的实体类型参数 
+        /// 对于嵌套泛型参数 递归判断
+        /// </summary>
+        private bool GenericTypeHasEntityTypeArgs(INamedTypeSymbol namedTypeSymbol)
+        {
+            if (namedTypeSymbol.IsEntityRefOrEntityWeakRef())
+            {
+                return false;
+            }
+            
+            var typeArgs = namedTypeSymbol.TypeArguments;
+            foreach (var typeSymbol in typeArgs)
+            {
+                if (typeSymbol is not INamedTypeSymbol namedTypeSymbol2)
+                {
+                    break;
+                }
+
+                if (namedTypeSymbol2.IsGenericType)
+                {
+                    if (GenericTypeHasEntityTypeArgs(namedTypeSymbol2))
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (namedTypeSymbol2.IsETEntity())
                     {
                         return true;
                     }

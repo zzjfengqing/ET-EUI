@@ -410,7 +410,7 @@ namespace ET.Client
             {
                 return;
             }
-            foreach (KeyValuePair<int, UIBaseWindow> window in self.AllWindowsDic)
+            foreach (KeyValuePair<int,EntityRef<UIBaseWindow>> window in self.AllWindowsDic)
             {
                 UIBaseWindow baseWindow = window.Value;
                 if (baseWindow == null|| baseWindow.IsDisposed)
@@ -436,18 +436,19 @@ namespace ET.Client
         {
             self.IsPopStackWndStatus = false;
             self.UIBaseWindowlistCached.Clear();
-            foreach (KeyValuePair<int, UIBaseWindow> window in self.VisibleWindowsDic)
+            foreach (KeyValuePair<int,EntityRef<UIBaseWindow>> windowBase in self.VisibleWindowsDic)
             {
-                if (window.Value.windowType == UIWindowType.Fixed && !includeFixed)
+                UIBaseWindow window = windowBase.Value;
+                if (window.windowType == UIWindowType.Fixed && !includeFixed)
                     continue;
-                if (window.Value.IsDisposed)
+                if (window.IsDisposed)
                 {
                     continue;
                 }
                 
-                self.UIBaseWindowlistCached.Add((WindowID)window.Key);
-                window.Value.UIPrefabGameObject?.SetActive(false);
-                UIEventComponent.Instance.GetUIEventHandler(window.Value.WindowID).OnHideWindow(window.Value);
+                self.UIBaseWindowlistCached.Add((WindowID)windowBase.Key);
+                window.UIPrefabGameObject?.SetActive(false);
+                UIEventComponent.Instance.GetUIEventHandler(window.WindowID).OnHideWindow(window);
             }
             if (self.UIBaseWindowlistCached.Count > 0)
             {
@@ -517,6 +518,13 @@ namespace ET.Client
             {
                 go = await self.Scene<Scene>().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(value.StringToAB());
             }
+
+            if (go == null)
+            {
+                throw new Exception("go  is null!!!");
+            }
+            
+            
             baseWindow.UIPrefabGameObject      = UnityEngine.Object.Instantiate(go);
             baseWindow.UIPrefabGameObject.name = go.name;
             

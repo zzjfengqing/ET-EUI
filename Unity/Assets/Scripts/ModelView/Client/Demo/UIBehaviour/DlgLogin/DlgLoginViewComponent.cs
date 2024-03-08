@@ -16,7 +16,8 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_esreuseui == null )
+     			ESReuseUI value = this.m_esreuseui;
+     			if( value == null )
      			{
 		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Sprite_BackGround/ESReuseUI");
 		    	   this.m_esreuseui = this.AddChild<ESReuseUI,Transform>(subTrans);

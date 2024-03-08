@@ -45,26 +45,6 @@ namespace ET
         {
             return v.UnWrap;
         }
-        
-        public static bool operator==(EntityRef<T> v1,EntityRef<T> v2)
-        {
-            return v1.instanceId == v2.instanceId;
-        }
-        
-        public static bool operator!=(EntityRef<T> v1,EntityRef<T> v2)
-        {
-            return v1.instanceId != v2.instanceId;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
     
     

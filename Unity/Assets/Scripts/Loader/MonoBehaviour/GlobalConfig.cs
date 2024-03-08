@@ -12,7 +12,6 @@ namespace ET
     
     public enum BuildType
     {
-        None,
         Debug,
         Release,
     }
@@ -21,7 +20,9 @@ namespace ET
     public class GlobalConfig: ScriptableObject
     {
         public CodeMode CodeMode;
-        
+
+        public bool EnableDll;
+
         public BuildType BuildType;
 
         public AppType AppType;

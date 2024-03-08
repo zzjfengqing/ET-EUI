@@ -601,8 +601,8 @@ public partial class UICodeSpawner
 	    strBuilder.AppendLine("     				Log.Error(\"uiTransform is null.\");");
 	    strBuilder.AppendLine("     				return null;");
 	    strBuilder.AppendLine("     			}");
-	    
-	    strBuilder.AppendFormat("     			if( this.m_{0} == null )\n" , widget.ToLower());
+	    strBuilder.AppendFormat("     			{0} value = this.m_{1};\n" ,subUIClassType, widget.ToLower());
+	    strBuilder.AppendFormat("     			if( value == null )\n" , widget.ToLower());
 	    strBuilder.AppendLine("     			{");
 	    strBuilder.AppendFormat("		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,\"{0}\");\r\n",  strPath);
 	    strBuilder.AppendFormat("		    	   this.m_{0} = this.AddChild<{1},Transform>(subTrans);\r\n", widget.ToLower(),subUIClassType);

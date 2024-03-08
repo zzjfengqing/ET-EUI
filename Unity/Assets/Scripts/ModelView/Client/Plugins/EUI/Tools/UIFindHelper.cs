@@ -16,6 +16,7 @@ using UnityEngine.Events;
 
 namespace ET.Client
 {
+    [EnableClass]
     public class UIFindHelper
     {
         /// <summary>
