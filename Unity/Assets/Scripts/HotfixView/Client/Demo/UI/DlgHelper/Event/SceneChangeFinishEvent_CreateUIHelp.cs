@@ -5,7 +5,7 @@
     {
         protected override async ETTask Run(Scene scene, SceneChangeFinish args)
         {
-             scene.GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Helper);
+             await scene.GetComponent<UIComponent>().ShowWindowAsync(WindowID.WindowID_Helper);
              await ETTask.CompletedTask;
         }
     }
